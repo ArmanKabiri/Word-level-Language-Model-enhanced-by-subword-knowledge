@@ -1,18 +1,19 @@
 # Created by Arman Kabiri on 2020-02-27 - 1:50 p.m.
 # Author's Email Address: Arman.Kabiri94@gmail.com
 
-from CorpusReader import CorpusReader
+import CorpusReader
 import logging
 from tqdm import tqdm
 
 
 class Dictionary:
 
-    def __init__(self, corpus_reader: CorpusReader):
+    def __init__(self, corpus_reader):
 
         self.word2id = dict()
         self.id2word = list()
         self.corpus_reader = corpus_reader
+        self.vocab_size = 0
 
     def build_dictionary(self):
 

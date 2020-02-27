@@ -4,7 +4,7 @@
 import logging
 import gensim
 from tqdm import tqdm
-from Dictionary import Dictionary
+import Dictionary
 import numpy as np
 
 

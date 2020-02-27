@@ -1,7 +1,9 @@
 # Created by Arman Kabiri on 2020-02-27 - 1:52 p.m.
 # Author's Email Address: Arman.Kabiri94@gmail.com
-from Dictionary import Dictionary
+
 import numpy as np
+
+import Dictionary
 
 
 class CorpusReader:
@@ -29,7 +31,7 @@ class CorpusReader:
                 yield buf
             yield ''  # handle the scene that the file is empty
 
-    def batchify(self, dictionary: Dictionary, batch_size: int, seq_len: int):
+    def batchify(self, dictionary, batch_size: int, seq_len: int):
 
         reader = self.load_corpus_inchunk()
         left_from_previous_chunk = []

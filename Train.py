@@ -3,19 +3,16 @@
 # Email: Arman.Kabiri94@gmail.com
 
 
-import numpy as np
-import matplotlib.pyplot as plt
+import argparse
+import logging
+
 import torch
 import torch.nn as nn
-import gensim
-import logging
-from tqdm import tqdm
-import typing
-import argparse
-from EmbeddingsLoader import EmbeddingsLoader
-from Lang_Model import LanguageModel
+
 from CorpusReader import CorpusReader
 from Dictionary import Dictionary
+from EmbeddingsLoader import EmbeddingsLoader
+from Lang_Model import LanguageModel
 
 
 def main():
@@ -25,14 +22,24 @@ def main():
     parser.add_argument('--n_layers', type=int)
     parser.add_argument('--hidden_size', type=int)
     parser.add_argument('--dropout_probablity', type=float)
-    parser.add_argument('--bidirectional_model', type=bool)
-    parser.add_argument('--tie_weights', type=bool)
-    parser.add_argument('--trainable_embeddings', type=bool)
     parser.add_argument('--embeddings_dim', type=int)
-    parser.add_argument('--gpu', type=bool)
+    parser.add_argument('--bidirectional_model', action='store_true')
+    parser.add_argument('--tie_weights', action='store_true')
+    parser.add_argument('--freez_embeddings', action='store_true')
+    parser.add_argument('--gpu', action='store_true')
 
     args = parser.parse_args()
 
+    if torch.cuda.is_available():
+        if not args.cuda:
+            print("WARNING: You have a CUDA device, so you should probably run with --gpu")
+    else:
+        if args.gpu:
+            print("You do not have a GPU device, so you should run CPU without --gpu option.")
+            exit()
+
+    device = torch.device("cuda" if args.gpu else "cpu")
+    torch.manual_seed(args.seed)
     corpus_reader = CorpusReader(args.corpus_file, 1000000)
 
     logging.info("Generating Dictionaries")
@@ -46,7 +53,7 @@ def main():
     model = LanguageModel(n_layers=args.n_layers, hidden_size=args.hidden_size, n_vocab=dictionary.get_dic_size(),
                           input_size=args.embeddings_dim, dropout=args.dropout_probablity,
                           bidirectional=args.bidirectional_model, pret_emb_matrix=embeddings_matrix,
-                          trainable_emb=args.trainable_embeddings, tie_weights=args.tie_weights, use_gpu=args.gpu)
+                          trainable_emb=~args.trainable_embeddings, tie_weights=args.tie_weights, use_gpu=args.gpu)
 
     ###############
     total_param = []
@@ -101,6 +108,8 @@ def main():
 
             # TODO: POSSIBLE EXPLODING GRADIENT PROBLEM! -> CLIP JUST IN CASE :
             # nn.utils.clip_grad_norm_(model.parameters(),max_norm=5)
+            # for p in model.parameters():
+            #     p.data.add_(-lr, p.grad.data)
 
             optimizer.step()
 

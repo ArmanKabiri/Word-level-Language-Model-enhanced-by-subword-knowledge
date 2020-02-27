@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="235fe5cb-094f-4259-820d-53ce413dabaf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CorpusReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/CorpusReader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dictionary.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dictionary.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lang_Model.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Train.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmbeddingsLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/EmbeddingsLoader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +21,13 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Arman Kabiri &lt;arman.kabiri94@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1YOok4H8zMURFjmWobp140UrgEs" />
   <component name="ProjectViewState">
@@ -39,6 +42,60 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
+  <component name="RunManager" selected="Python.Train">
+    <configuration name="CorpusReader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="My_Language_Model" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CorpusReader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="My_Language_Model" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Train.py" />
+      <option name="PARAMETERS" value="--corpus_file Data/corpus-test.txt --embeddings_file Data/English_Wiki_1Billion_embeddings.bin --n_layers 1 --hidden_size 500 --dropout_probablity 0.25 embeddings_dim 300" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.CorpusReader" />
+      <item itemvalue="Python.Train" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Train" />
+        <item itemvalue="Python.CorpusReader" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -52,10 +109,74 @@
     </task>
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="2635" y="215" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582844549329">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2635" y="215" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844549329" />
+    <state x="524" y="78" key="CommitChangelistDialog2" timestamp="1582843494311">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state x="524" y="78" key="CommitChangelistDialog2/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582843494311" />
+    <state width="1853" height="542" key="DebuggerActiveHint" timestamp="1582844533813">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1853" height="542" key="DebuggerActiveHint/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844533813" />
+    <state width="1832" height="315" key="GridCell.Tab.0.bottom" timestamp="1582844505102">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.0.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844505102" />
+    <state width="1832" height="315" key="GridCell.Tab.0.center" timestamp="1582844505102">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.0.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844505102" />
+    <state width="1832" height="315" key="GridCell.Tab.0.left" timestamp="1582844505102">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.0.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844505102" />
+    <state width="1832" height="315" key="GridCell.Tab.0.right" timestamp="1582844505102">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.0.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844505102" />
+    <state width="1832" height="315" key="GridCell.Tab.1.bottom" timestamp="1582844506630">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.1.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844506630" />
+    <state width="1832" height="315" key="GridCell.Tab.1.center" timestamp="1582844506630">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.1.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844506630" />
+    <state width="1832" height="315" key="GridCell.Tab.1.left" timestamp="1582844506630">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.1.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844506630" />
+    <state width="1832" height="315" key="GridCell.Tab.1.right" timestamp="1582844506630">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state width="1832" height="315" key="GridCell.Tab.1.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582844506630" />
     <state x="486" y="174" key="SettingsEditor" timestamp="1582836039343">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state x="486" y="174" key="SettingsEditor/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582836039343" />
+    <state x="765" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582843422737">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state x="765" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582843422737" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Train.py</url>
+          <line>18</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
