@@ -12,14 +12,14 @@ class Dictionary:
 
         self.word2id = dict()
         self.id2word = list()
-        self.__build_dictionary(corpus_reader)
+        self.corpus_reader = corpus_reader
 
-    def __build_dictionary(self, corpus_reader: CorpusReader):
+    def build_dictionary(self):
 
         logging.info("Building dictionaries...")
         self.word2id = dict()
         self.id2word = list()
-        reader = corpus_reader.load_corpus_inchunk()
+        reader = self.corpus_reader.load_corpus_inchunk()
 
         for chunk in tqdm(reader):
             words = chunk.split(' ')

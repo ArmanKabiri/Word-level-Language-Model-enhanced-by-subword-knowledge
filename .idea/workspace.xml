@@ -2,20 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="235fe5cb-094f-4259-820d-53ce413dabaf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/My_Language_Model.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CorpusReader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dictionary.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EmbeddingsLoader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lang_Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Lang_Model-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Lang_Model-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/My_Language_Model-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lang_Model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Lang_Model.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/My_Language_Model.ipynb" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CorpusReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/CorpusReader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dictionary.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dictionary.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lang_Model.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train.ipynb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +37,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -56,5 +51,11 @@
       <updated>1582823140410</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="486" y="174" key="SettingsEditor" timestamp="1582836039343">
+      <screen x="65" y="24" width="1855" height="1056" />
+    </state>
+    <state x="486" y="174" key="SettingsEditor/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1582836039343" />
   </component>
 </project>
