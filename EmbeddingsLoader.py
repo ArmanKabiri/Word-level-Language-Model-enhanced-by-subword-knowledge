@@ -1,11 +1,10 @@
 # Created by Arman Kabiri on 2020-02-27 - 1:59 p.m.
 # Author's Email Address: Arman.Kabiri94@gmail.com
 
-import logging
 import gensim
-from tqdm import tqdm
-import Dictionary
 import numpy as np
+
+import Dictionary
 
 
 class EmbeddingsLoader:
@@ -18,12 +17,13 @@ class EmbeddingsLoader:
 
     def __load_pretrained_embeddings(self, input_file: str) -> dict:
 
-        logging.info("Loading pretrained embeddings...")
-        vectors = gensim.models.KeyedVectors.load_word2vec_format(fname=input_file, binary=True)
-        logging.info("Pretrained embeddings are loaded.")
-        self.emb_dict = vectors
-        self.dim = len(vectors.values()[0])
-        return vectors
+        print("Loading pretrained embeddings...")
+        model = gensim.models.KeyedVectors.load_word2vec_format(fname=input_file, binary=True)
+        print("Pretrained embeddings are loaded.")
+        # self.emb_dict = model.vectors
+        self.dim = model.vector_size
+        # TODO: normalize embeddings, check range?
+        return model
 
     def get_embeddings_matrix(self, input_file: str, dictionary: Dictionary, emb_dim) -> np.array:
 

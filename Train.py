@@ -8,6 +8,7 @@ import logging
 
 import torch
 import torch.nn as nn
+from tqdm import tqdm
 
 from CorpusReader import CorpusReader
 from Dictionary import Dictionary
@@ -23,6 +24,10 @@ def main():
     parser.add_argument('--hidden_size', type=int)
     parser.add_argument('--dropout_probablity', type=float)
     parser.add_argument('--embeddings_dim', type=int)
+    parser.add_argument('--batch_size', type=int)
+    parser.add_argument('--seq_len', type=int)
+    parser.add_argument('--epochs', type=int)
+    parser.add_argument('--lr', type=float)
     parser.add_argument('--bidirectional_model', action='store_true')
     parser.add_argument('--tie_weights', action='store_true')
     parser.add_argument('--freez_embeddings', action='store_true')
@@ -39,21 +44,24 @@ def main():
             exit()
 
     device = torch.device("cuda" if args.gpu else "cpu")
-    torch.manual_seed(args.seed)
-    corpus_reader = CorpusReader(args.corpus_file, 1000000)
+    torch.manual_seed(100)
+    corpus_reader = CorpusReader(args.corpus_file, 10000000)
 
     logging.info("Generating Dictionaries")
     dictionary = Dictionary(corpus_reader)
     dictionary.build_dictionary()
 
     logging.info("Loading Embeddings")
-    emb_loader = EmbeddingsLoader()
-    embeddings_matrix = emb_loader.get_embeddings_matrix(args.embeddings_file, dictionary, args.embeddings_dim)
+
+    embeddings_matrix = None
+    if args.embeddings_file is not None:
+        emb_loader = EmbeddingsLoader()
+        embeddings_matrix = emb_loader.get_embeddings_matrix(args.embeddings_file, dictionary, args.embeddings_dim)
 
     model = LanguageModel(n_layers=args.n_layers, hidden_size=args.hidden_size, n_vocab=dictionary.get_dic_size(),
                           input_size=args.embeddings_dim, dropout=args.dropout_probablity,
                           bidirectional=args.bidirectional_model, pret_emb_matrix=embeddings_matrix,
-                          trainable_emb=~args.trainable_embeddings, tie_weights=args.tie_weights, use_gpu=args.gpu)
+                          freez_emb=args.freez_embeddings, tie_weights=args.tie_weights, use_gpu=args.gpu)
 
     ###############
     total_param = []
@@ -64,13 +72,8 @@ def main():
     ###############
 
     # Optimizer and Loss
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     criterion = nn.CrossEntropyLoss()
-
-    # Training Network
-    epochs = 50
-    batch_size = 128
-    seq_len = 100
 
     # put it into train mode.
     model.train()
@@ -78,16 +81,16 @@ def main():
     if args.gpu:
         model.cuda()
 
-    logging.info("Training starts ...")
+    print("Training starts ...")
     step = 0
-    for i in range(epochs):
+    for i in range(args.epochs):
 
-        logging.info(f"Epoch {i+1}:")
+        print(f"Epoch {i + 1}:")
 
-        batch_generator = corpus_reader.batchify(dictionary, batch_size, seq_len)
-        hidden = model.init_hidden(batch_size)
+        batch_generator = corpus_reader.batchify(dictionary, args.batch_size, args.seq_len)
+        hidden = model.init_hidden(args.batch_size)
 
-        for x, y in batch_generator:
+        for x, y in tqdm(batch_generator):
 
             step += 1
             x = torch.from_numpy(x)
@@ -98,12 +101,14 @@ def main():
                 y = y.cuda()
 
             # TODO: Not sure about this line
-            model.init_hidden(batch_size)
+            hidden = model.init_hidden(args.batch_size)
             model.zero_grad()
 
             y_hat, hidden = model.forward(x, hidden)
             # TODO: Should do some reshaping : targets.view(batch_size*seq_len).long()
-            loss = criterion.forward(y, y_hat)
+
+            loss = criterion.forward(y_hat.view(-1, dictionary.get_dic_size()),
+                                     y.reshape(args.batch_size * args.seq_len).long())
             loss.backward()
 
             # TODO: POSSIBLE EXPLODING GRADIENT PROBLEM! -> CLIP JUST IN CASE :
@@ -113,7 +118,7 @@ def main():
 
             optimizer.step()
 
-            if step % 25 == 0:
+            if step % 10 == 0:
                 print(f"Epoch {i}, Step {step},     Loss = {loss}")
 
 
