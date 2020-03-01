@@ -2,9 +2,8 @@
 # Date: Feb. 18, 2020
 # Email: Arman.Kabiri94@gmail.com
 
-
 import argparse
-import logging
+import math
 
 import torch
 import torch.nn as nn
@@ -18,7 +17,8 @@ from Lang_Model import LanguageModel
 
 def main():
     parser = argparse.ArgumentParser(description='LSTM Language Model')
-    parser.add_argument('--corpus_file', type=str, help='location of the data corpus')
+    parser.add_argument('--corpus_train_file', type=str, help='location of the data corpus')
+    parser.add_argument('--corpus_valid_file', type=str)
     parser.add_argument('--embeddings_file', type=str)
     parser.add_argument('--n_layers', type=int)
     parser.add_argument('--hidden_size', type=int)
@@ -28,6 +28,7 @@ def main():
     parser.add_argument('--seq_len', type=int)
     parser.add_argument('--epochs', type=int)
     parser.add_argument('--lr', type=float)
+    parser.add_argument('--seed', type=int)
     parser.add_argument('--bidirectional_model', action='store_true')
     parser.add_argument('--tie_weights', action='store_true')
     parser.add_argument('--freez_embeddings', action='store_true')
@@ -44,14 +45,14 @@ def main():
             exit()
 
     device = torch.device("cuda" if args.gpu else "cpu")
-    torch.manual_seed(100)
-    corpus_reader = CorpusReader(args.corpus_file, 10000000)
+    torch.manual_seed(args.seed)
+    corpus_train_reader = CorpusReader(args.corpus_train_file, 100000000)  # 100MB
 
-    logging.info("Generating Dictionaries")
-    dictionary = Dictionary(corpus_reader)
+    print("Generating Dictionaries")
+    dictionary = Dictionary(corpus_train_reader)
     dictionary.build_dictionary()
 
-    logging.info("Loading Embeddings")
+    print("Loading Embeddings")
 
     embeddings_matrix = None
     if args.embeddings_file is not None:
@@ -82,44 +83,55 @@ def main():
         model.cuda()
 
     print("Training starts ...")
-    step = 0
     for i in range(args.epochs):
-
         print(f"Epoch {i + 1}:")
+        train(corpus_train_reader, dictionary, model, optimizer, criterion, args)
 
-        batch_generator = corpus_reader.batchify(dictionary, args.batch_size, args.seq_len)
-        hidden = model.init_hidden(args.batch_size)
 
-        for x, y in tqdm(batch_generator):
+def train(corpus_train_reader, dictionary, model, optimizer, criterion, args):
+    batch_generator = corpus_train_reader.batchify(dictionary, args.batch_size, args.seq_len)
+    hidden = model.init_hidden(args.batch_size)
 
-            step += 1
-            x = torch.from_numpy(x)
-            y = torch.from_numpy(y)
+    step = 0
+    for x, y in tqdm(batch_generator):
 
-            if args.gpu:
-                x = x.cuda()
-                y = y.cuda()
+        step += 1
+        x = torch.from_numpy(x)
+        y = torch.from_numpy(y)
 
-            # TODO: Not sure about this line
-            hidden = model.init_hidden(args.batch_size)
-            model.zero_grad()
+        if args.gpu:
+            x = x.cuda()
+            y = y.cuda()
 
-            y_hat, hidden = model.forward(x, hidden)
-            # TODO: Should do some reshaping : targets.view(batch_size*seq_len).long()
+        hidden = detach_hidden(hidden)
+        model.zero_grad()
 
-            loss = criterion.forward(y_hat.view(-1, dictionary.get_dic_size()),
-                                     y.reshape(args.batch_size * args.seq_len).long())
-            loss.backward()
+        y_hat, hidden = model.forward(x, hidden)
 
-            # TODO: POSSIBLE EXPLODING GRADIENT PROBLEM! -> CLIP JUST IN CASE :
-            # nn.utils.clip_grad_norm_(model.parameters(),max_norm=5)
-            # for p in model.parameters():
-            #     p.data.add_(-lr, p.grad.data)
+        loss = criterion.forward(y_hat.view(-1, dictionary.get_dic_size()),
+                                 y.reshape(args.batch_size * args.seq_len).long())
+        loss.backward()
 
-            optimizer.step()
+        # TODO: POSSIBLE EXPLODING GRADIENT PROBLEM! -> CLIP JUST IN CASE :
+        nn.utils.clip_grad_norm_(model.parameters(), max_norm=5)
 
-            if step % 10 == 0:
-                print(f"Epoch {i}, Step {step},     Loss = {loss}")
+        optimizer.step()
+
+        if step % 10 == 0:
+            print(f"Step {step},     Loss = {loss.item()},    PPL = {math.exp(loss)}")
+
+
+def detach_hidden(hidden: tuple):
+    """Detach hidden states from their history."""
+
+    return tuple(v.detach() for v in hidden)
+
+    # return tuple([state.data for state in hidden])
+
+    # if isinstance(h, torch.Tensor):
+    #     return h.detach()
+    # else:
+    #     return tuple(repackage_hidden(v) for v in h)
 
 
 if __name__ == '__main__':

@@ -3,8 +3,6 @@
 
 import numpy as np
 
-import Dictionary
-
 
 class CorpusReader:
 
@@ -56,5 +54,8 @@ class CorpusReader:
 
             for i in range(0, encoded_text.shape[1] - 1, seq_len):
                 x = encoded_text[:, i: i + seq_len]
-                y = encoded_text[:, i + 1:i + seq_len + 1]
+                y = np.zeros_like(x)
+                y[:, :-1] = x[:, 1:]
+                y[:, -1] = encoded_text[:, i + seq_len]
+                # y = encoded_text[:, i + 1:i + seq_len + 1]
                 yield x, y
