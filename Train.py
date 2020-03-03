@@ -72,36 +72,28 @@ def train(corpus_train_reader, dictionary, model, optimizer, criterion, args):
 
 
 def detach_hidden(hidden: tuple):
-    """Detach hidden states from their history."""
 
     return tuple(v.detach() for v in hidden)
 
-    # return tuple([state.data for state in hidden])
-
-    # if isinstance(h, torch.Tensor):
-    #     return h.detach()
-    # else:
-    #     return tuple(repackage_hidden(v) for v in h)
-
 
 def generate_text(model: LanguageModel, dictionary: Dictionary, seed: str, k=1):
-    # CHECK FOR GPU
+
     if args.gpu:
         model.cuda()
     else:
         model.cpu()
 
-    # Evaluation mode
     model.eval()
 
-    hidden = model.init_hidden(1)
-    input_text = seed
-    output = [seed]
+    with torch.no_grad():
+        hidden = model.init_hidden(1)
+        input_text = seed
+        output = [seed]
 
-    for i in range(10):
-        word, hidden = predict_next_word(model, dictionary, hidden, input_text, k)
-        output.append(word)
-        input_text = word
+        for i in range(10):
+            word, hidden = predict_next_word(model, dictionary, hidden, input_text, k)
+            output.append(word)
+            input_text = word
 
     print(' '.join(output))
 
@@ -113,6 +105,7 @@ def predict_next_word(model: LanguageModel, dictionary, hidden, input_text: str,
     if args.gpu:
         input_tensor = input_tensor.cuda()
 
+    input_tensor = input_tensor.view(-1,1)
     output, hidden = model.forward(input_tensor, hidden)
     probs = F.softmax(output, 1)
 
@@ -126,7 +119,7 @@ def predict_next_word(model: LanguageModel, dictionary, hidden, input_text: str,
     probs = probs / probs.sum()
     word = np.random.choice(picked_indexes, p=probs)
 
-    word = dictionary.decode_text(word)
+    word = dictionary.decode_text([word.item()])
 
     return word, hidden
 
@@ -191,7 +184,7 @@ def main():
         torch.save(model.state_dict(), "LSTM_Lang_Model.bin")
 
     # Text Generation:
-    generate_text(model, dictionary, 'Cat', 5)
+    generate_text(model, dictionary, 'water', 5)
 
 
 if __name__ == '__main__':

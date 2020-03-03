@@ -34,7 +34,7 @@ class Dictionary:
         return [self.word2id[word] for word in text.split(' ')]
 
     def decode_text(self, sequence: list) -> str:
-        ' '.join([self.id2word[idx] for idx in sequence])
+        return ' '.join([self.id2word[idx] for idx in sequence])
 
     def get_dic_size(self) -> int:
         return len(self.id2word)
