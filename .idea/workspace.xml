@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="235fe5cb-094f-4259-820d-53ce413dabaf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dictionary.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dictionary.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +36,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DefinitionModeling_CODE/Project_Phase2_MultiLingual/Corpus_Embeddings_Transformation" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunManager" selected="Python.Train">
@@ -159,54 +158,55 @@
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="528" y="314" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583162079787">
+    <state x="528" y="314" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583279644528">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state x="528" y="314" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162079787" />
+    <state x="528" y="314" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583279644528" />
     <state x="524" y="78" key="CommitChangelistDialog2" timestamp="1583160431872">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state x="524" y="78" key="CommitChangelistDialog2/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583160431872" />
-    <state width="1853" height="542" key="DebuggerActiveHint" timestamp="1583161682996">
+    <state width="1853" height="542" key="DebuggerActiveHint" timestamp="1583282816791">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1853" height="542" key="DebuggerActiveHint/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583161682996" />
-    <state x="2700" y="297" key="FileChooserDialogImpl" timestamp="1582923713558">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state width="1853" height="542" key="DebuggerActiveHint/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583282816791" />
+    <state x="819" y="314" key="FileChooserDialogImpl" timestamp="1583370775518">
+      <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state x="2700" y="297" key="FileChooserDialogImpl/1920.0.1920.1080/65.24.1855.1056@1920.0.1920.1080" timestamp="1582923713558" />
-    <state width="1832" height="291" key="GridCell.Tab.0.bottom" timestamp="1583162089432">
+    <state x="819" y="314" key="FileChooserDialogImpl/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370775518" />
+    <state width="1832" height="200" key="GridCell.Tab.0.bottom" timestamp="1583370778734">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.0.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
-    <state width="1832" height="291" key="GridCell.Tab.0.center" timestamp="1583162089432">
+    <state width="1832" height="200" key="GridCell.Tab.0.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778734" />
+    <state width="1832" height="200" key="GridCell.Tab.0.center" timestamp="1583370778734">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.0.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
-    <state width="1832" height="291" key="GridCell.Tab.0.left" timestamp="1583162089432">
+    <state width="1832" height="200" key="GridCell.Tab.0.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778734" />
+    <state width="1832" height="200" key="GridCell.Tab.0.left" timestamp="1583370778733">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.0.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
-    <state width="1832" height="291" key="GridCell.Tab.0.right" timestamp="1583162089432">
+    <state width="1832" height="200" key="GridCell.Tab.0.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778733" />
+    <state width="1832" height="200" key="GridCell.Tab.0.right" timestamp="1583370778734">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.0.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
-    <state width="1832" height="291" key="GridCell.Tab.1.bottom" timestamp="1583162089432">
+    <state width="1832" height="200" key="GridCell.Tab.0.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778734" />
+    <state width="1832" height="291" key="GridCell.Tab.1.bottom" timestamp="1583370778727">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.1.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
-    <state width="1832" height="291" key="GridCell.Tab.1.center" timestamp="1583162089432">
+    <state width="1832" height="291" key="GridCell.Tab.1.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778727" />
+    <state width="1832" height="291" key="GridCell.Tab.1.center" timestamp="1583370778727">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.1.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
-    <state width="1832" height="291" key="GridCell.Tab.1.left" timestamp="1583162089432">
+    <state width="1832" height="291" key="GridCell.Tab.1.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778727" />
+    <state width="1832" height="291" key="GridCell.Tab.1.left" timestamp="1583370778727">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.1.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
-    <state width="1832" height="291" key="GridCell.Tab.1.right" timestamp="1583162089432">
+    <state width="1832" height="291" key="GridCell.Tab.1.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778727" />
+    <state width="1832" height="291" key="GridCell.Tab.1.right" timestamp="1583370778727">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
-    <state width="1832" height="291" key="GridCell.Tab.1.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583162089432" />
+    <state width="1832" height="291" key="GridCell.Tab.1.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583370778727" />
     <state x="486" y="174" key="SettingsEditor" timestamp="1582836039343">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
@@ -230,5 +230,10 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="args.epochs" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

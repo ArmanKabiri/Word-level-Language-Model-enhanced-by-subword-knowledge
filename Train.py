@@ -21,6 +21,7 @@ parser = argparse.ArgumentParser(description='LSTM Language Model')
 parser.add_argument('--corpus_train_file', type=str, help='location of the data corpus')
 parser.add_argument('--corpus_valid_file', type=str)
 parser.add_argument('--embeddings_file', type=str)
+parser.add_argument('--output_model_path', type=str, default='Data/LSTM_model.bin')
 parser.add_argument('--n_layers', type=int)
 parser.add_argument('--hidden_size', type=int)
 parser.add_argument('--dropout_probablity', type=float)
@@ -36,6 +37,69 @@ parser.add_argument('--freez_embeddings', action='store_true')
 parser.add_argument('--gpu', action='store_true')
 
 args = parser.parse_args()
+
+
+def main():
+    torch.set_num_threads(8)
+
+    if torch.cuda.is_available():
+        if not args.cuda:
+            print("WARNING: You have a CUDA device, so you should probably run with --gpu")
+    else:
+        if args.gpu:
+            print("You do not have a GPU device, so you should run CPU without --gpu option.")
+            exit()
+
+    torch.manual_seed(args.seed)
+    corpus_train_reader = CorpusReader(args.corpus_train_file, 100000000)  # 100MB
+
+    print("Generating Dictionaries")
+    dictionary = Dictionary(corpus_train_reader)
+    dictionary.build_dictionary()
+
+    print("Loading Embeddings")
+
+    embeddings_matrix = None
+    if args.embeddings_file is not None:
+        emb_loader = EmbeddingsLoader()
+        embeddings_matrix = emb_loader.get_embeddings_matrix(args.embeddings_file, dictionary, args.embeddings_dim)
+
+    model = LanguageModel(n_layers=args.n_layers, hidden_size=args.hidden_size, n_vocab=dictionary.get_dic_size(),
+                          input_size=args.embeddings_dim, dropout=args.dropout_probablity,
+                          bidirectional=args.bidirectional_model, pret_emb_matrix=embeddings_matrix,
+                          freez_emb=args.freez_embeddings, tie_weights=args.tie_weights, use_gpu=args.gpu)
+
+    ###############
+    total_param = []
+    for p in model.parameters():
+        total_param.append(int(p.numel()))
+    print(total_param)
+    print(sum(total_param))
+    ###############
+
+    if path.exists(args.output_model_path):
+        model.load_state_dict(torch.load(args.output_model_path))
+
+    else:
+        # put it into train mode.
+        model.train()
+        if args.gpu:
+            model.cuda()
+
+        # Optimizer and Loss
+        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+        criterion = nn.CrossEntropyLoss()
+
+        print("Training starts ...")
+        for i in range(args.epochs):
+            print(f"Epoch {i + 1}:")
+            train(corpus_train_reader, dictionary, model, optimizer, criterion, args)
+
+        print("Saving Model...")
+        torch.save(model.state_dict(), args.output_model_path)
+
+    # Text Generation:
+    generate_text(model, dictionary, 'word', 5)
 
 
 def train(corpus_train_reader, dictionary, model, optimizer, criterion, args):
@@ -107,7 +171,8 @@ def predict_next_word(model: LanguageModel, dictionary, hidden, input_text: str,
 
     input_tensor = input_tensor.view(-1,1)
     output, hidden = model.forward(input_tensor, hidden)
-    probs = F.softmax(output, 1)
+    # TODO here
+    probs = F.softmax(output, 2)
 
     # move back to CPU to use with numpy
     if args.gpu:
@@ -124,67 +189,7 @@ def predict_next_word(model: LanguageModel, dictionary, hidden, input_text: str,
     return word, hidden
 
 
-def main():
-    torch.set_num_threads(8)
 
-    if torch.cuda.is_available():
-        if not args.cuda:
-            print("WARNING: You have a CUDA device, so you should probably run with --gpu")
-    else:
-        if args.gpu:
-            print("You do not have a GPU device, so you should run CPU without --gpu option.")
-            exit()
-
-    torch.manual_seed(args.seed)
-    corpus_train_reader = CorpusReader(args.corpus_train_file, 100000000)  # 100MB
-
-    print("Generating Dictionaries")
-    dictionary = Dictionary(corpus_train_reader)
-    dictionary.build_dictionary()
-
-    print("Loading Embeddings")
-
-    embeddings_matrix = None
-    if args.embeddings_file is not None:
-        emb_loader = EmbeddingsLoader()
-        embeddings_matrix = emb_loader.get_embeddings_matrix(args.embeddings_file, dictionary, args.embeddings_dim)
-
-    model = LanguageModel(n_layers=args.n_layers, hidden_size=args.hidden_size, n_vocab=dictionary.get_dic_size(),
-                          input_size=args.embeddings_dim, dropout=args.dropout_probablity,
-                          bidirectional=args.bidirectional_model, pret_emb_matrix=embeddings_matrix,
-                          freez_emb=args.freez_embeddings, tie_weights=args.tie_weights, use_gpu=args.gpu)
-
-    ###############
-    total_param = []
-    for p in model.parameters():
-        total_param.append(int(p.numel()))
-    print(total_param)
-    print(sum(total_param))
-    ###############
-
-    if path.exists("LSTM_Lang_Model.bin"):
-        model.load_state_dict(torch.load("LSTM_Lang_Model.bin"))
-
-    else:
-        # put it into train mode.
-        model.train()
-        if args.gpu:
-            model.cuda()
-
-        # Optimizer and Loss
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-        criterion = nn.CrossEntropyLoss()
-
-        print("Training starts ...")
-        for i in range(args.epochs):
-            print(f"Epoch {i + 1}:")
-            train(corpus_train_reader, dictionary, model, optimizer, criterion, args)
-
-        print("Saving Model...")
-        torch.save(model.state_dict(), "LSTM_Lang_Model.bin")
-
-    # Text Generation:
-    generate_text(model, dictionary, 'water', 5)
 
 
 if __name__ == '__main__':
