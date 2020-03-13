@@ -6,10 +6,8 @@ import argparse
 import math
 import os.path as path
 
-import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from tqdm import tqdm
 
 from CorpusReader import CorpusReader
@@ -31,6 +29,8 @@ parser.add_argument('--seq_len', type=int)
 parser.add_argument('--epochs', type=int)
 parser.add_argument('--lr', type=float)
 parser.add_argument('--seed', type=int)
+parser.add_argument('--clip_grad', type=int)
+parser.add_argument('--print_steps', type=int)
 parser.add_argument('--bidirectional_model', action='store_true')
 parser.add_argument('--tie_weights', action='store_true')
 parser.add_argument('--freez_embeddings', action='store_true')
@@ -98,9 +98,6 @@ def main():
         print("Saving Model...")
         torch.save(model.state_dict(), args.output_model_path)
 
-    # Text Generation:
-    generate_text(model, dictionary, 'word', 5)
-
 
 def train(corpus_train_reader, dictionary, model, optimizer, criterion, args):
     batch_generator = corpus_train_reader.batchify(dictionary, args.batch_size, args.seq_len)
@@ -126,70 +123,17 @@ def train(corpus_train_reader, dictionary, model, optimizer, criterion, args):
                                  y.reshape(args.batch_size * args.seq_len).long())
         loss.backward()
 
-        # TODO: POSSIBLE EXPLODING GRADIENT PROBLEM! -> CLIP JUST IN CASE :
-        nn.utils.clip_grad_norm_(model.parameters(), max_norm=5)
+        nn.utils.clip_grad_norm_(model.parameters(), max_norm=args.clip_grad)
 
         optimizer.step()
 
-        if step % 10 == 0:
+        if step % args.print_steps == 0:
             print(f"Step {step},     Loss = {loss.item()},    PPL = {math.exp(loss)}")
 
 
 def detach_hidden(hidden: tuple):
 
     return tuple(v.detach() for v in hidden)
-
-
-def generate_text(model: LanguageModel, dictionary: Dictionary, seed: str, k=1):
-
-    if args.gpu:
-        model.cuda()
-    else:
-        model.cpu()
-
-    model.eval()
-
-    with torch.no_grad():
-        hidden = model.init_hidden(1)
-        input_text = seed
-        output = [seed]
-
-        for i in range(10):
-            word, hidden = predict_next_word(model, dictionary, hidden, input_text, k)
-            output.append(word)
-            input_text = word
-
-    print(' '.join(output))
-
-
-def predict_next_word(model: LanguageModel, dictionary, hidden, input_text: str, k=1) -> tuple:
-    input_tensor = dictionary.encode_text(input_text)
-    input_tensor = np.array(input_tensor)
-    input_tensor = torch.from_numpy(input_tensor)
-    if args.gpu:
-        input_tensor = input_tensor.cuda()
-
-    input_tensor = input_tensor.view(-1,1)
-    output, hidden = model.forward(input_tensor, hidden)
-    # TODO here
-    probs = F.softmax(output, 2)
-
-    # move back to CPU to use with numpy
-    if args.gpu:
-        probs = probs.cpu()
-
-    probs, picked_indexes = probs.topk(k)
-    picked_indexes = picked_indexes.numpy().squeeze()
-    probs = probs.numpy().flatten()
-    probs = probs / probs.sum()
-    word = np.random.choice(picked_indexes, p=probs)
-
-    word = dictionary.decode_text([word.item()])
-
-    return word, hidden
-
-
-
 
 
 if __name__ == '__main__':
