@@ -50,15 +50,12 @@ class LanguageModel(nn.Module):
     def load_model(self, modelpath: str):
 
         print("Loading Model from file...")
-        loaded_parameters = torch.load(modelpath, map_location=torch.device('gpu' if self.use_gpu else 'cpu'))
+        loaded_parameters = torch.load(modelpath, map_location=torch.device('cuda' if self.use_gpu else 'cpu'))
         self.n_layers = loaded_parameters['n_layers']
         self.hidden_size = loaded_parameters['hidden_size']
         self.n_vocab = loaded_parameters['n_vocab']
         self.input_size = loaded_parameters['input_size']
-        # TODO
-        # self.dropout_prob = loaded_parameters['dropout_prob']
-        self.dropout_prob = 0.25
-
+        self.dropout_prob = loaded_parameters['dropout_prob']
         self.bidirectional = loaded_parameters['bidirectional']
         self.freez_emb = loaded_parameters['freez_emb']
         self.tie_weights = loaded_parameters['tie_weights']
@@ -135,7 +132,7 @@ class LanguageModel(nn.Module):
             'hidden_size': self.hidden_size,
             'n_vocab': self.n_vocab,
             'input_size': self.input_size,
-            'dropout': self.dropout,
+            'dropout_prob': self.dropout_prob,
             'bidirectional': self.bidirectional,
             'freez_emb': self.freez_emb,
             'tie_weights': self.tie_weights
