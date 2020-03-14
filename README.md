@@ -36,3 +36,6 @@ The arguments are as follows:
 * '--word2id_path' : 'Path to the dictionary file (word2id)'
 * '--seed_word' : 'The seed word to generate a new text'
 * '--gpu' : 'Turn it one if you have a GPU device'
+
+
+#### Feel free to contribute to this model.
