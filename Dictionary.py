@@ -6,19 +6,18 @@ from tqdm import tqdm
 
 class Dictionary:
 
-    def __init__(self, corpus_reader):
+    def __init__(self):
 
         self.word2id = dict()
         self.id2word = list()
-        self.corpus_reader = corpus_reader
         self.vocab_size = 0
 
-    def build_dictionary(self):
+    def build_dictionary(self, corpus_reader):
 
         print("Building dictionaries...")
         self.word2id = dict()
         self.id2word = list()
-        reader = self.corpus_reader.load_corpus_inchunk()
+        reader = corpus_reader.load_corpus_inchunk()
 
         for chunk in tqdm(reader):
             words = chunk.split(' ')
@@ -29,6 +28,19 @@ class Dictionary:
 
         self.vocab_size = len(self.id2word)
         print(f"Dictionaries are built - Vocab size is {len(self.id2word)}")
+
+    def load_dictionary(self, id2word_filepath: str, word2id_filepath: str):
+
+        with open(id2word_filepath, 'r') as file:
+            self.id2word = [word.rstrip() for word in file]
+
+        with open(word2id_filepath, 'r') as file:
+            for line in file:
+                word, word_id = line.rstrip().split('\t')
+                self.word2id[word] = int(word_id)
+
+        assert len(self.word2id) == len(self.id2word)
+        self.vocab_size = len(self.word2id)
 
     def encode_text(self, text: str) -> list:
         return [self.word2id[word] for word in text.split(' ')]

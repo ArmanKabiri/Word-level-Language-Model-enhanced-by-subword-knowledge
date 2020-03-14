@@ -4,7 +4,6 @@
 
 import argparse
 import math
-import os.path as path
 
 import torch
 import torch.nn as nn
@@ -20,6 +19,8 @@ parser.add_argument('--corpus_train_file', type=str, help='location of the data 
 parser.add_argument('--corpus_valid_file', type=str)
 parser.add_argument('--embeddings_file', type=str)
 parser.add_argument('--output_model_path', type=str, default='Data/LSTM_model.bin')
+parser.add_argument('--output_id2word_path', type=str, default='Data/id2word.txt')
+parser.add_argument('--output_word2id_path', type=str, default='Data/word2id.txt')
 parser.add_argument('--n_layers', type=int)
 parser.add_argument('--hidden_size', type=int)
 parser.add_argument('--dropout_probablity', type=float)
@@ -29,7 +30,7 @@ parser.add_argument('--seq_len', type=int)
 parser.add_argument('--epochs', type=int)
 parser.add_argument('--lr', type=float)
 parser.add_argument('--seed', type=int)
-parser.add_argument('--clip_grad', type=int)
+parser.add_argument('--clip_grad', type=int, default=5)
 parser.add_argument('--print_steps', type=int)
 parser.add_argument('--bidirectional_model', action='store_true')
 parser.add_argument('--tie_weights', action='store_true')
@@ -43,7 +44,7 @@ def main():
     torch.set_num_threads(8)
 
     if torch.cuda.is_available():
-        if not args.cuda:
+        if not args.gpu:
             print("WARNING: You have a CUDA device, so you should probably run with --gpu")
     else:
         if args.gpu:
@@ -53,19 +54,21 @@ def main():
     torch.manual_seed(args.seed)
     corpus_train_reader = CorpusReader(args.corpus_train_file, 100000000)  # 100MB
 
-    print("Generating Dictionaries")
-    dictionary = Dictionary(corpus_train_reader)
-    dictionary.build_dictionary()
+    print("Generating Dictionaries...")
+    dictionary = Dictionary()
+    dictionary.build_dictionary(corpus_train_reader)
 
-    print("Loading Embeddings")
+    print("Saving Dictionary...")
+    save_dictionary(dictionary, args.output_id2word_path, args.output_word2id_path)
 
+    print("Loading Embeddings...")
     embeddings_matrix = None
     if args.embeddings_file is not None:
         emb_loader = EmbeddingsLoader()
         embeddings_matrix = emb_loader.get_embeddings_matrix(args.embeddings_file, dictionary, args.embeddings_dim)
 
     model = LanguageModel(n_layers=args.n_layers, hidden_size=args.hidden_size, n_vocab=dictionary.get_dic_size(),
-                          input_size=args.embeddings_dim, dropout=args.dropout_probablity,
+                          input_size=args.embeddings_dim, dropout_prob=args.dropout_probablity,
                           bidirectional=args.bidirectional_model, pret_emb_matrix=embeddings_matrix,
                           freez_emb=args.freez_embeddings, tie_weights=args.tie_weights, use_gpu=args.gpu)
 
@@ -77,26 +80,21 @@ def main():
     print(sum(total_param))
     ###############
 
-    if path.exists(args.output_model_path):
-        model.load_state_dict(torch.load(args.output_model_path))
+    # put it into train mode.
+    model.train()
+    if args.gpu:
+        model.cuda()
 
-    else:
-        # put it into train mode.
-        model.train()
-        if args.gpu:
-            model.cuda()
+    # Optimizer and Loss
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    criterion = nn.CrossEntropyLoss()
 
-        # Optimizer and Loss
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-        criterion = nn.CrossEntropyLoss()
-
-        print("Training starts ...")
-        for i in range(args.epochs):
-            print(f"Epoch {i + 1}:")
-            train(corpus_train_reader, dictionary, model, optimizer, criterion, args)
-
-        print("Saving Model...")
-        torch.save(model.state_dict(), args.output_model_path)
+    print("Training starts ...")
+    for i in range(args.epochs):
+        print(f"Epoch {i + 1}:")
+        train(corpus_train_reader, dictionary, model, optimizer, criterion, args)
+        print(f"Saving Model at epoch {i + 1}...")
+        model.save_model(args.output_model_path)
 
 
 def train(corpus_train_reader, dictionary, model, optimizer, criterion, args):
@@ -132,8 +130,19 @@ def train(corpus_train_reader, dictionary, model, optimizer, criterion, args):
 
 
 def detach_hidden(hidden: tuple):
-
     return tuple(v.detach() for v in hidden)
+
+
+def save_dictionary(dictionary: Dictionary, output_id2word_path, output_word2id_path):
+    with open(output_word2id_path, 'w') as file:
+        for word, word_id in dictionary.word2id.items():
+            if '\t' in word:
+                exit()
+            file.write(f"{word}\t{word_id}\n")
+
+    with open(output_id2word_path, 'w') as file:
+        for word in dictionary.id2word:
+            file.write(f"{word}\n")
 
 
 if __name__ == '__main__':

@@ -11,16 +11,24 @@ from Dictionary import Dictionary
 from Lang_Model import LanguageModel
 
 parser = argparse.ArgumentParser(description='LSTM Language Model - Text Generator')
-parser.add_argument('--model_path', type=str, help='location of the trained model')
+parser.add_argument('--model_path', type=str, default='Data/model.bin', help='location of the trained model')
+parser.add_argument('--id2word_path', type=str, default='Data/id2word.txt')
+parser.add_argument('--word2id_path', type=str, default='Data/word2id.txt')
 parser.add_argument('--seed_word', type=str, help='Seed word')
+parser.add_argument('--gpu', action='store_true', help='GPU')
+args = parser.parse_args()
+args.seed_word = 'emotions'
 
 
 def main():
-    # TODO
-    generate_text()
+    model = LanguageModel(path_to_pretrained_model=args.model_path, use_gpu=args.gpu)
+    dictionary = Dictionary()
+    dictionary.load_dictionary(id2word_filepath=args.id2word_path, word2id_filepath=args.word2id_path)
+    result = generate_text(model=model, dictionary=dictionary, seed=args.seed_word, gpu_enabled=args.gpu, k=5)
+    print(result)
 
 
-def generate_text(model: LanguageModel, dictionary: Dictionary, seed: str, gpu_enabled, k=1):
+def generate_text(model: LanguageModel, dictionary: Dictionary, seed: str, gpu_enabled, k=5):
     if gpu_enabled:
         model.cuda()
     else:
@@ -29,7 +37,7 @@ def generate_text(model: LanguageModel, dictionary: Dictionary, seed: str, gpu_e
     model.eval()
 
     with torch.no_grad():
-        hidden = model.init_hidden(1)
+        hidden = model.init_hidden(batch_size=1)
         input_text = seed
         output = [seed]
 
@@ -38,19 +46,21 @@ def generate_text(model: LanguageModel, dictionary: Dictionary, seed: str, gpu_e
             output.append(word)
             input_text = word
 
-    print(' '.join(output))
+    return ' '.join(output)
 
 
 def predict_next_word(model: LanguageModel, dictionary, hidden, input_text: str, gpu_enabled, k=1) -> tuple:
+
     input_tensor = dictionary.encode_text(input_text)
     input_tensor = np.array(input_tensor)
     input_tensor = torch.from_numpy(input_tensor)
+
     if gpu_enabled:
         input_tensor = input_tensor.cuda()
 
     input_tensor = input_tensor.view(-1, 1)
     output, hidden = model.forward(input_tensor, hidden)
-    # TODO here
+
     probs = F.softmax(output, 2)
 
     # move back to CPU to use with numpy
@@ -66,3 +76,7 @@ def predict_next_word(model: LanguageModel, dictionary, hidden, input_text: str,
     word = dictionary.decode_text([word.item()])
 
     return word, hidden
+
+
+if __name__ == '__main__':
+    main()

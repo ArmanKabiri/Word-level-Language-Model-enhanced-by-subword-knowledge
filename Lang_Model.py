@@ -11,14 +11,17 @@ import torch.nn as nn
 class LanguageModel(nn.Module):
 
     def __init__(self, n_layers: int = 2, hidden_size: int = 300, n_vocab: int = 10000, input_size: int = 300,
-                 dropout: float = 0.25, bidirectional: bool = False, pret_emb_matrix: np.array = None,
+                 dropout_prob: float = 0.25, bidirectional: bool = False, pret_emb_matrix: np.array = None,
                  freez_emb: bool = True, tie_weights: bool = False, use_gpu=False, path_to_pretrained_model=None):
 
         super().__init__()
 
         if path_to_pretrained_model is not None:
+            self.use_gpu = use_gpu
             self.load_model(path_to_pretrained_model)
+
         else:
+
             if pret_emb_matrix is not None:
                 assert n_vocab == pret_emb_matrix.shape[0] and input_size == pret_emb_matrix.shape[1]
 
@@ -30,33 +33,39 @@ class LanguageModel(nn.Module):
             self.n_vocab = n_vocab
             self.freez_emb = freez_emb
             self.tie_weights = tie_weights
-            # Initializing Layers
+            self.dropout_prob = dropout_prob
 
-            self.embedding = nn.Embedding(n_vocab, input_size)
+            self.__build_model()
 
-            self.dropout = nn.Dropout(p=dropout)
-
-            self.rnn = nn.LSTM(input_size=self.input_size, hidden_size=self.hidden_size, num_layers=n_layers,
-                               dropout=dropout, bidirectional=bidirectional, batch_first=True)
-
-            self.decoder = nn.Linear(hidden_size, n_vocab)
-
-            # Network Initialization
             initrange = 0.1
             self.init_weights(pret_emb_matrix, freez_emb, tie_weights, initrange)
 
+    def __build_model(self):
+        self.embedding = nn.Embedding(self.n_vocab, self.input_size)
+        self.dropout = nn.Dropout(p=self.dropout_prob)
+        self.rnn = nn.LSTM(input_size=self.input_size, hidden_size=self.hidden_size, num_layers=self.n_layers,
+                           dropout=self.dropout_prob, bidirectional=self.bidirectional, batch_first=True)
+        self.decoder = nn.Linear(self.hidden_size, self.n_vocab)
+
     def load_model(self, modelpath: str):
+
         print("Loading Model from file...")
-        loaded_parameters = torch.load(modelpath)
-        self.load_state_dict(loaded_parameters['state_dict'])
+        loaded_parameters = torch.load(modelpath, map_location=torch.device('gpu' if self.use_gpu else 'cpu'))
         self.n_layers = loaded_parameters['n_layers']
         self.hidden_size = loaded_parameters['hidden_size']
         self.n_vocab = loaded_parameters['n_vocab']
         self.input_size = loaded_parameters['input_size']
-        self.dropout = loaded_parameters['dropout']
+        # TODO
+        # self.dropout_prob = loaded_parameters['dropout_prob']
+        self.dropout_prob = 0.25
+
         self.bidirectional = loaded_parameters['bidirectional']
         self.freez_emb = loaded_parameters['freez_emb']
         self.tie_weights = loaded_parameters['tie_weights']
+
+        self.__build_model()
+
+        self.load_state_dict(loaded_parameters['state_dict'])
 
     def init_weights(self, pret_emb_matrix, freez_emb, tie_weights, initrange=0.1):
 
