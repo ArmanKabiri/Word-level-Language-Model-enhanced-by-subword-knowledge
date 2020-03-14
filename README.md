@@ -4,8 +4,11 @@ This language model is written in PyTorch.
 To train it on your own corpus, simply call Train.py with its arguments.
 
 The arguments are as follows:
+
 '--corpus_train_file' : 'location of the data corpus for training'
+
 '--corpus_valid_file': 'location of the data corpus for validation'
+
 '--embeddings_file' : 'If pretrained embeddings exist, load them here.'
 '--output_model_path' : 'Path to save the trained model.'
 '--output_id2word_path' : 'Path to save dictionary file (id2word)'
