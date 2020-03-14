@@ -1,7 +1,7 @@
 # Language_Model
-This language model is written in PyTorch.
+## This language model is written in PyTorch.
 
-To train it on your own corpus, simply call Train.py with its arguments.
+### To train it on your own corpus, simply call Train.py with its arguments.
 
 The arguments are as follows:
 
@@ -36,7 +36,6 @@ The arguments are as follows:
 '--seed' : 'The seed for randomness'
 
 '--clip_grad' : 'Clip gradients during training to prevent exploding gradients.'
-
 '--print_steps' : 'Print training info every n steps.'
 
 '--bidirectional_model' : 'Use it if you want your LSTM to be bidirectional.'
@@ -49,7 +48,7 @@ The arguments are as follows:
 
 
 
-To test the model with generating a new text, simply call Test.py with the following arguments:
+### To test the model with generating a new text, simply call Test.py with the following arguments:
 
 '--model_path' : 'Path to the pre-trained model.'
 
