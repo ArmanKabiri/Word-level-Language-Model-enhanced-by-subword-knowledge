@@ -9,7 +9,7 @@ import torch.nn as nn
 
 
 class LanguageModel(nn.Module):
-
+   
     def __init__(self, n_layers: int = 2, hidden_size: int = 300, n_vocab: int = 10000, input_size: int = 300,
                  dropout_prob: float = 0.25, bidirectional: bool = False, pret_emb_matrix: np.array = None,
                  freez_emb: bool = True, tie_weights: bool = False, use_gpu=False, path_to_pretrained_model=None):
@@ -18,7 +18,7 @@ class LanguageModel(nn.Module):
 
         if path_to_pretrained_model is not None:
             self.use_gpu = use_gpu
-            self.load_model(path_to_pretrained_model)
+            self.__load_model(path_to_pretrained_model)
 
         else:
 
@@ -47,7 +47,7 @@ class LanguageModel(nn.Module):
                            dropout=self.dropout_prob, bidirectional=self.bidirectional, batch_first=True)
         self.decoder = nn.Linear(self.hidden_size, self.n_vocab)
 
-    def load_model(self, modelpath: str):
+    def __load_model(self, modelpath: str):
 
         print("Loading Model from file...")
         loaded_parameters = torch.load(modelpath, map_location=torch.device('cuda' if self.use_gpu else 'cpu'))
@@ -125,7 +125,7 @@ class LanguageModel(nn.Module):
         return hidden_state
 
     def save_model(self, file_path):
-
+        
         data_to_save = {
             'state_dict': self.state_dict(),
             'n_layers': self.n_layers,
