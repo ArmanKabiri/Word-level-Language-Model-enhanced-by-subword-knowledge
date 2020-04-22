@@ -1,2 +1,4 @@
 Data
-00-RNN-for-Text-Generation .ipynb
+00-RNN-for-Text-Generation.ipynb
+__pycache__
+logs
