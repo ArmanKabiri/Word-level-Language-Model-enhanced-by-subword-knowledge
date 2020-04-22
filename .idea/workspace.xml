@@ -19,34 +19,73 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="235fe5cb-094f-4259-820d-53ce413dabaf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CharLevelCNNNetwork.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DictionaryCharacter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/test/1587429947.02526/events.out.tfevents.1587429947.Macintosh.local.92136.29.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/test/1587431232.594663/events.out.tfevents.1587431232.Macintosh.local.92581.13.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/test/1587435591.845634/events.out.tfevents.1587435591.Macintosh.local.93625.13.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/test/1587471375.016177/events.out.tfevents.1587471375.Macintosh.local.96979.13.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/test/1587471412.449692/events.out.tfevents.1587471412.Macintosh.local.97004.13.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/train/1587429947.02526/events.out.tfevents.1587429947.Macintosh.local.92136.21.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/train/1587431232.594663/events.out.tfevents.1587431232.Macintosh.local.92581.5.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/train/1587435591.845634/events.out.tfevents.1587435591.Macintosh.local.93625.5.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/train/1587471375.016177/events.out.tfevents.1587471375.Macintosh.local.96979.5.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/tensorboard/train/1587471412.449692/events.out.tfevents.1587471412.Macintosh.local.97004.5.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/runs/fashion_mnist_experiment_1/events.out.tfevents.1587431233.Macintosh.local.92581.0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/runs/fashion_mnist_experiment_1/events.out.tfevents.1587435592.Macintosh.local.93625.0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/runs/fashion_mnist_experiment_1/events.out.tfevents.1587471375.Macintosh.local.96979.0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/runs/fashion_mnist_experiment_1/events.out.tfevents.1587471412.Macintosh.local.97004.0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/My_Language_Model.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/My_Language_Model.iml" afterDir="false" />
+    <list default="true" id="235fe5cb-094f-4259-820d-53ce413dabaf" name="Default Changelist" comment="Character-level CNN is added to the model.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Train-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Train-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CorpusReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/CorpusReader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dictionary.py" beforeDir="false" afterPath="$PROJECT_DIR$/DictionaryWord.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EmbeddingsLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/EmbeddingsLoader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lang_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lang_Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Train.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Train.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587429947.02526/events.out.tfevents.1587429947.Macintosh.local.92136.29.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587431232.594663/events.out.tfevents.1587431232.Macintosh.local.92581.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587435591.845634/events.out.tfevents.1587435591.Macintosh.local.93625.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587471375.016177/events.out.tfevents.1587471375.Macintosh.local.96979.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587471412.449692/events.out.tfevents.1587471412.Macintosh.local.97004.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587523427.448744/events.out.tfevents.1587523427.Macintosh.local.9761.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587523453.636279/events.out.tfevents.1587523453.Macintosh.local.9788.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587523610.327016/events.out.tfevents.1587523610.Macintosh.local.9840.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587523663.854373/events.out.tfevents.1587523663.Macintosh.local.9867.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587524761.903233/events.out.tfevents.1587524762.Macintosh.local.10155.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587525149.382256/events.out.tfevents.1587525149.Macintosh.local.10236.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587525733.518401/events.out.tfevents.1587525733.Macintosh.local.10410.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587526162.657868/events.out.tfevents.1587526162.Macintosh.local.10533.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587526287.490356/events.out.tfevents.1587526287.Macintosh.local.10581.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587526617.48546/events.out.tfevents.1587526617.Macintosh.local.10671.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587526850.330063/events.out.tfevents.1587526850.Macintosh.local.10760.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587527036.492714/events.out.tfevents.1587527036.Macintosh.local.10821.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587527361.435168/events.out.tfevents.1587527361.Macintosh.local.10925.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587527618.126775/events.out.tfevents.1587527618.Macintosh.local.10997.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587527957.08393/events.out.tfevents.1587527957.Macintosh.local.11105.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587528109.721326/events.out.tfevents.1587528109.Macintosh.local.11167.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587528245.407757/events.out.tfevents.1587528245.Macintosh.local.11207.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587528631.127568/events.out.tfevents.1587528631.Macintosh.local.11300.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587528891.408341/events.out.tfevents.1587528891.Macintosh.local.11391.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587529490.704153/events.out.tfevents.1587529490.Macintosh.local.11562.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587563080.718188/events.out.tfevents.1587563080.Macintosh.local.9815.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587563530.365097/events.out.tfevents.1587563530.Macintosh.local.9936.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587565222.683519/events.out.tfevents.1587565222.Macintosh.local.10433.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587565432.617279/events.out.tfevents.1587565432.Macintosh.local.10505.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587565465.586836/events.out.tfevents.1587565465.Macintosh.local.10534.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/test/1587565819.029178/events.out.tfevents.1587565819.Macintosh.local.10637.13.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587429947.02526/events.out.tfevents.1587429947.Macintosh.local.92136.21.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587431232.594663/events.out.tfevents.1587431232.Macintosh.local.92581.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587435591.845634/events.out.tfevents.1587435591.Macintosh.local.93625.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587471375.016177/events.out.tfevents.1587471375.Macintosh.local.96979.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587471412.449692/events.out.tfevents.1587471412.Macintosh.local.97004.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587523427.448744/events.out.tfevents.1587523427.Macintosh.local.9761.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587523453.636279/events.out.tfevents.1587523453.Macintosh.local.9788.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587523610.327016/events.out.tfevents.1587523610.Macintosh.local.9840.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587523663.854373/events.out.tfevents.1587523663.Macintosh.local.9867.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587524761.903233/events.out.tfevents.1587524762.Macintosh.local.10155.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587525149.382256/events.out.tfevents.1587525149.Macintosh.local.10236.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587525733.518401/events.out.tfevents.1587525733.Macintosh.local.10410.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587526162.657868/events.out.tfevents.1587526162.Macintosh.local.10533.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587526287.490356/events.out.tfevents.1587526287.Macintosh.local.10581.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587526617.48546/events.out.tfevents.1587526617.Macintosh.local.10671.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587526850.330063/events.out.tfevents.1587526850.Macintosh.local.10760.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587527036.492714/events.out.tfevents.1587527036.Macintosh.local.10821.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587527361.435168/events.out.tfevents.1587527361.Macintosh.local.10925.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587527618.126775/events.out.tfevents.1587527618.Macintosh.local.10997.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587527957.08393/events.out.tfevents.1587527957.Macintosh.local.11105.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587528109.721326/events.out.tfevents.1587528109.Macintosh.local.11167.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587528245.407757/events.out.tfevents.1587528245.Macintosh.local.11207.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587528631.127568/events.out.tfevents.1587528631.Macintosh.local.11300.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587528891.408341/events.out.tfevents.1587528891.Macintosh.local.11391.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587529490.704153/events.out.tfevents.1587529490.Macintosh.local.11562.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587563080.718188/events.out.tfevents.1587563080.Macintosh.local.9815.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587563530.365097/events.out.tfevents.1587563530.Macintosh.local.9936.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587565222.683519/events.out.tfevents.1587565222.Macintosh.local.10433.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587565432.617279/events.out.tfevents.1587565432.Macintosh.local.10505.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587565465.586836/events.out.tfevents.1587565465.Macintosh.local.10534.5.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/tensorboard/train/1587565819.029178/events.out.tfevents.1587565819.Macintosh.local.10637.5.v2" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,11 +108,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="MERGE" />
   </component>
-  <component name="JupyterTrust" id="960822bd-aaf9-4391-a482-eef6c211ed26">
-    <option name="files">
-      <option value="Train.ipynb" />
-    </option>
-  </component>
+  <component name="JupyterTrust" id="960822bd-aaf9-4391-a482-eef6c211ed26" />
   <component name="ProjectId" id="1YOok4H8zMURFjmWobp140UrgEs" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -255,7 +290,7 @@
       <option name="presentableId" value="Default" />
       <updated>1582823140410</updated>
       <workItem from="1587428775743" duration="24216000" />
-      <workItem from="1587531062268" duration="5628000" />
+      <workItem from="1587531062268" duration="6388000" />
     </task>
     <task id="LOCAL-00001" summary="Model implementation">
       <created>1582922993083</created>
@@ -299,7 +334,21 @@
       <option name="project" value="LOCAL" />
       <updated>1584203633642</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Character-level CNN is added to the model.">
+      <created>1587565963295</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1587565963295</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Character-level CNN is added to the model.">
+      <created>1587565996981</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1587565996981</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -319,7 +368,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Model implementation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Model implementation" />
+    <MESSAGE value="Character-level CNN is added to the model." />
+    <option name="LAST_COMMIT_MESSAGE" value="Character-level CNN is added to the model." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -350,48 +400,48 @@
     </state>
     <state x="2700" y="297" key="FileChooserDialogImpl/1920.0.1920.1080/65.24.1855.1056@1920.0.1920.1080" timestamp="1582923713558" />
     <state x="819" y="314" width="424" height="482" key="FileChooserDialogImpl/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584977506532" />
-    <state width="1638" height="424" key="GridCell.Tab.0.bottom" timestamp="1587565805083">
+    <state width="1638" height="204" key="GridCell.Tab.0.bottom" timestamp="1587567099514">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1587565805083" />
+    <state width="1638" height="204" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099514" />
     <state width="1832" height="291" key="GridCell.Tab.0.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246459" />
-    <state width="1638" height="424" key="GridCell.Tab.0.center" timestamp="1587565805080">
+    <state width="1638" height="204" key="GridCell.Tab.0.center" timestamp="1587567099513">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1587565805080" />
+    <state width="1638" height="204" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099513" />
     <state width="1832" height="291" key="GridCell.Tab.0.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246459" />
-    <state width="1638" height="424" key="GridCell.Tab.0.left" timestamp="1587565805079">
+    <state width="1638" height="204" key="GridCell.Tab.0.left" timestamp="1587567099513">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1587565805079" />
+    <state width="1638" height="204" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099513" />
     <state width="1832" height="291" key="GridCell.Tab.0.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246459" />
-    <state width="1638" height="424" key="GridCell.Tab.0.right" timestamp="1587565805081">
+    <state width="1638" height="204" key="GridCell.Tab.0.right" timestamp="1587567099513">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1587565805081" />
+    <state width="1638" height="204" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099513" />
     <state width="1832" height="291" key="GridCell.Tab.0.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246459" />
-    <state width="1638" height="424" key="GridCell.Tab.1.bottom" timestamp="1587565804966">
+    <state width="1638" height="204" key="GridCell.Tab.1.bottom" timestamp="1587567099516">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1587565804966" />
+    <state width="1638" height="204" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099516" />
     <state width="1638" height="258" key="GridCell.Tab.1.bottom/0.23.1680.973@0.23.1680.973" timestamp="1587563530996" />
     <state width="1832" height="291" key="GridCell.Tab.1.bottom/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246460" />
-    <state width="1638" height="424" key="GridCell.Tab.1.center" timestamp="1587565804965">
+    <state width="1638" height="204" key="GridCell.Tab.1.center" timestamp="1587567099515">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1587565804965" />
+    <state width="1638" height="204" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099515" />
     <state width="1638" height="258" key="GridCell.Tab.1.center/0.23.1680.973@0.23.1680.973" timestamp="1587563530995" />
     <state width="1832" height="291" key="GridCell.Tab.1.center/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246459" />
-    <state width="1638" height="424" key="GridCell.Tab.1.left" timestamp="1587565804964">
+    <state width="1638" height="204" key="GridCell.Tab.1.left" timestamp="1587567099514">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1587565804964" />
+    <state width="1638" height="204" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099514" />
     <state width="1638" height="258" key="GridCell.Tab.1.left/0.23.1680.973@0.23.1680.973" timestamp="1587563530994" />
     <state width="1832" height="291" key="GridCell.Tab.1.left/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246459" />
-    <state width="1638" height="424" key="GridCell.Tab.1.right" timestamp="1587565804966">
+    <state width="1638" height="204" key="GridCell.Tab.1.right" timestamp="1587567099515">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="424" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1587565804966" />
+    <state width="1638" height="204" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1587567099515" />
     <state width="1638" height="258" key="GridCell.Tab.1.right/0.23.1680.973@0.23.1680.973" timestamp="1587563530995" />
     <state width="1832" height="291" key="GridCell.Tab.1.right/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1584211246459" />
     <state x="381" y="149" key="SettingsEditor" timestamp="1587476035200">
