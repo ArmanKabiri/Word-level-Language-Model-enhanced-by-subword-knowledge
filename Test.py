@@ -7,7 +7,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from Dictionary import Dictionary
+from DictionaryWord import Dictionary_word
 from Lang_Model import LanguageModel
 
 parser = argparse.ArgumentParser(description='LSTM Language Model - Text Generator')
@@ -22,13 +22,13 @@ args.seed_word = 'emotions'
 
 def main():
     model = LanguageModel(path_to_pretrained_model=args.model_path, use_gpu=args.gpu)
-    dictionary = Dictionary()
+    dictionary = Dictionary_word()
     dictionary.load_dictionary(id2word_filepath=args.id2word_path, word2id_filepath=args.word2id_path)
     result = generate_text(model=model, dictionary=dictionary, seed=args.seed_word, gpu_enabled=args.gpu, k=5)
     print(result)
 
 
-def generate_text(model: LanguageModel, dictionary: Dictionary, seed: str, gpu_enabled, k=5):
+def generate_text(model: LanguageModel, dictionary: Dictionary_word, seed: str, gpu_enabled, k=5):
     if gpu_enabled:
         model.cuda()
     else:

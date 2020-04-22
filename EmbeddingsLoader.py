@@ -4,7 +4,7 @@
 import gensim
 import numpy as np
 
-import Dictionary
+import DictionaryWord
 
 
 class EmbeddingsLoader:
@@ -25,7 +25,7 @@ class EmbeddingsLoader:
         # TODO: normalize embeddings, check range?
         return model
 
-    def get_embeddings_matrix(self, input_file: str, dictionary: Dictionary, emb_dim) -> np.array:
+    def get_embeddings_matrix(self, input_file: str, dictionary: DictionaryWord, emb_dim) -> np.array:
 
         pretrained_emb = self.__load_pretrained_embeddings(input_file)
         assert emb_dim == self.dim

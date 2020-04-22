@@ -1,8 +1,11 @@
 # Created by Arman Kabiri on 2020-02-27 - 1:52 p.m.
 # Author's Email Address: Arman.Kabiri94@gmail.com
 
-import numpy as np
 import os
+
+import numpy as np
+
+
 class CorpusReader:
 
     def __init__(self, input_file: str, chunk_size: int = 100000000):
@@ -10,9 +13,10 @@ class CorpusReader:
         self.chunk = chunk_size
 
     def load_corpus_inchunk(self) -> str:
-        
+
         self.file_size = os.path.getsize(self.input_file)
         self.bytes_read = 0
+
         with open(self.input_file, 'r') as f:
 
             while True:
@@ -20,7 +24,7 @@ class CorpusReader:
                 if not buf:
                     break
                 self.bytes_read += self.chunk
-                
+
                 # make sure we end on a space (word boundary)
                 while not str.isspace(buf[-1]):
                     ch = f.read(1)
@@ -55,12 +59,13 @@ class CorpusReader:
             encoded_text = encoded_text.reshape((batch_size, -1))
 
             for i in range(0, encoded_text.shape[1] - 1, seq_len):
+                # x shape is : (batch_size, seq_len)
                 x = encoded_text[:, i: i + seq_len]
                 y = np.zeros_like(x)
                 y[:, :-1] = x[:, 1:]
                 y[:, -1] = encoded_text[:, i + seq_len]
                 # y = encoded_text[:, i + 1:i + seq_len + 1]
                 yield x, y
-                
+
     def get_progress(self):
-        return self.bytes_read/self.file_size * 100
+        return self.bytes_read / self.file_size * 100
