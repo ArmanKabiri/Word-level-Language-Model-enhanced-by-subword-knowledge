@@ -82,3 +82,29 @@ class DictionaryCharacter:
 
         output_batch = output_batch.reshape((batch_size, seq_len, self.max_word_len + 2))
         return output_batch
+
+    def save_dictionary(self, id2char_filepath: str, char2id_filepath: str):
+
+        with open(char2id_filepath, 'w') as file:
+            for char, char_id in self.char2id.items():
+                if '\t' in char:
+                    exit()
+                file.write(f"{char}\t{char_id}\n")
+
+        with open(id2char_filepath, 'w') as file:
+            for char in self.id2char:
+                file.write(f"{char}\n")
+
+    def load_dictionary(self, id2char_filepath: str, char2id_filepath: str):
+
+        with open(id2char_filepath, 'r') as file:
+            self.id2char = [char.rstrip() for char in file]
+
+        with open(char2id_filepath, 'r') as file:
+            for line in file:
+                char, char_id = line.rstrip().split('\t')
+                self.char2id[char] = int(char_id)
+
+        assert len(self.char2id) == len(self.id2char)
+        self.vocab_size = len(self.char2id)
+        print(f"Dictionaries are loaded - Vocab size is {len(self.id2char)}")

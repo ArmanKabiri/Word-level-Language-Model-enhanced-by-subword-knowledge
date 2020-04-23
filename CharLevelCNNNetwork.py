@@ -63,9 +63,7 @@ class CharLevelCNNNetwork(nn.Module):
         # [batch_size*seq_len, max_word_len+2, char_emb_dim]
 
         x = torch.transpose(x.view(x.size()[0], 1, x.size()[1], -1), 2, 3)
-        # [batch_size*seq_len, 1, max_word_len+2, char_emb_dim]
-        # TODO: The shape is not correct:
-        # This code makes the tensor have the shape of [batch_size*seq_len, 1, char_emb_dim, max_word_len+2]
+        # [batch_size*seq_len, 1, char_emb_dim, max_word_len+2]
 
         x = self.conv_layers(x)
         # [batch_size*seq_len, total_num_filters]

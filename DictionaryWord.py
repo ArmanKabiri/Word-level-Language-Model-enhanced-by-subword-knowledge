@@ -43,6 +43,17 @@ class DictionaryWord:
         self.vocab_size = len(self.word2id)
         print(f"Dictionaries are loaded - Vocab size is {len(self.id2word)}")
 
+    def save_dictionary(self, id2word_filepath: str, word2id_filepath: str):
+        with open(word2id_filepath, 'w') as file:
+            for word, word_id in self.word2id.items():
+                if '\t' in word:
+                    exit()
+                file.write(f"{word}\t{word_id}\n")
+
+        with open(id2word_filepath, 'w') as file:
+            for word in self.id2word:
+                file.write(f"{word}\n")
+
     def encode_text(self, text: str) -> list:
         return [self.word2id[word] for word in text.split(' ')]
 

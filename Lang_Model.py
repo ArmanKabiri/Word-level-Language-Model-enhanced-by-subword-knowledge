@@ -26,9 +26,16 @@ class LanguageModel(nn.Module):
 
         else:
 
+            # <-----------Assertion---------->
             if pret_emb_matrix is not None:
                 assert n_vocab == pret_emb_matrix.shape[0] and word_emb_dim == pret_emb_matrix.shape[1]
+            if tie_weights and freez_emb:
+                raise ValueError('tie_weights and trainable_emb flags should be used in a compatible way.')
+            if pret_emb_matrix is None and freez_emb is True:
+                raise ValueError('When pre-trained embeddings are not given, weights should be trainable.')
+            # </-----------Assertion---------->
 
+            # <-----------Storing arguments---------->
             self.word_emb_dim = word_emb_dim
             self.hidden_size = hidden_size
             self.features_level = features_level
@@ -41,6 +48,7 @@ class LanguageModel(nn.Module):
             self.freez_emb = freez_emb
             self.tie_weights = tie_weights
             self.dropout_prob = dropout_prob
+            # </-----------Storing arguments---------->
 
             self.__build_model()
 
@@ -64,29 +72,21 @@ class LanguageModel(nn.Module):
 
     def init_weights(self, pret_emb_matrix, freez_emb, tie_weights, init_range=0.1):
 
-        # TODO: Don't we need to initialize weights of other layers like LSTM or Convs?
-        if tie_weights and freez_emb:
-            raise ValueError('tie_weights and trainable_emb flags should be used in a compatible way.')
-
-        if pret_emb_matrix is None and freez_emb is True:
-            raise ValueError('When pre-trained embeddings are not given, weights should be trainable.')
-
+        # <-------------Word Embeddings------------->
         if 'word' in self.features_level:
-            if pret_emb_matrix is not None:
 
+            if pret_emb_matrix is not None:
                 pret_emb_matrix = torch.from_numpy(pret_emb_matrix)
                 if self.use_gpu:
                     pret_emb_matrix = pret_emb_matrix.cuda()
 
                 self.word_embedding_layer.from_pretrained(pret_emb_matrix, freez_emb)
-                # or
-                # self.embedding.load_state_dict({'weight': pret_emb_matrix})
-                # self.embedding.weight.requires_grad = trainable_emb
+
             else:
                 self.word_embedding_layer.weight.data.uniform_(-init_range, init_range)
+        # </-------------Word Embeddings------------->
 
-        self.decoder.bias.data.zero_()
-
+        # <-------------Decoder------------->
         if tie_weights and 'word' in self.features_level and 'character' not in self.features_level:
 
             if self.hidden_size != self.word_emb_dim:
@@ -96,6 +96,10 @@ class LanguageModel(nn.Module):
 
         else:
             self.decoder.weight.data.uniform_(-init_range, init_range)
+        self.decoder.bias.data.zero_()
+        # </-------------Decoder------------->
+
+        # Comment: LSTM and CONV weights and biases are not initialized. default initialization in used.
 
     def forward(self, x_word, x_char, hidden):
         """
@@ -149,12 +153,15 @@ class LanguageModel(nn.Module):
     def __load_model(self, modelpath: str):
 
         print("Loading Model from file...")
-        # TODO: add new char parameters here to load
+
         loaded_parameters = torch.load(modelpath, map_location=torch.device('cuda' if self.use_gpu else 'cpu'))
         self.n_layers = loaded_parameters['n_layers']
         self.hidden_size = loaded_parameters['hidden_size']
         self.n_vocab = loaded_parameters['n_vocab']
         self.word_emb_dim = loaded_parameters['word_emb_dim']
+        self.n_chars = loaded_parameters['n_chars']
+        self.char_emb_dim = loaded_parameters['char_emb_dim']
+        self.features_level = loaded_parameters['features_level']
         self.dropout_prob = loaded_parameters['dropout_prob']
         self.bidirectional = loaded_parameters['bidirectional']
         self.freez_emb = loaded_parameters['freez_emb']
@@ -165,17 +172,20 @@ class LanguageModel(nn.Module):
         self.load_state_dict(loaded_parameters['state_dict'])
 
     def save_model(self, file_path):
-        # TODO: Make sure that this also saves CNN layer weights
+
         data_to_save = {
             'state_dict': self.state_dict(),
             'n_layers': self.n_layers,
             'hidden_size': self.hidden_size,
             'n_vocab': self.n_vocab,
-            'input_size': self.word_emb_dim,
+            'word_emb_dim': self.word_emb_dim,
+            'n_chars': self.n_chars,
+            'char_emb_dim': self.char_emb_dim,
+            'features_level': self.features_level,
             'dropout_prob': self.dropout_prob,
             'bidirectional': self.bidirectional,
             'freez_emb': self.freez_emb,
-            'tie_weights': self.tie_weights
+            'tie_weights': self.tie_weights,
         }
 
         torch.save(data_to_save, file_path)

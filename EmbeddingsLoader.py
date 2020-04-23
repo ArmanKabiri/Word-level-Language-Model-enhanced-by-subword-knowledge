@@ -22,7 +22,6 @@ class EmbeddingsLoader:
         print("Pretrained embeddings are loaded.")
         # self.emb_dict = model.vectors
         self.dim = model.vector_size
-        # TODO: normalize embeddings, check range?
         return model
 
     def get_embeddings_matrix(self, input_file: str, dictionary: DictionaryWord, emb_dim) -> np.array:
@@ -32,7 +31,7 @@ class EmbeddingsLoader:
         self.embeddings_size = dictionary.get_dic_size()
         weights_matrix = np.zeros((self.embeddings_size, self.dim))
 
-        for i, word in enumerate(dictionary.id2word):
+        for i, word in enumerate(dictionary.id2char):
 
             try:
                 weights_matrix[i] = pretrained_emb[word]

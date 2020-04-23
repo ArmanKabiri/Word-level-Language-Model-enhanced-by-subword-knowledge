@@ -69,3 +69,4 @@ class CorpusReader:
 
     def get_progress(self):
         return self.bytes_read / self.file_size * 100
+
