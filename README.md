@@ -2,7 +2,7 @@
 
 ### This language model is written in PyTorch.
 
-By giving ['word','character'] to the features_level argument, your model first tries to learn subword features (i.e. prefixes, suffixes, etc.) using a character-level CNN, then the extracted feature vector of each word is concatenated with its word embedding, and is finally fed into a n-layer LSTM. You are free to try other values for features_level.
+By giving ['word','character'] to the features_level argument, your model first tries to learn subword features (i.e. prefixes, suffixes, etc.) using a character-level CNN. Then the extracted feature vector of each word is concatenated with its word embedding, and is finally fed into a n-layer LSTM. You are free to try other values for features_level.
 
 #### To train the model on your own corpus, simply call Train.py with its arguments.
 
