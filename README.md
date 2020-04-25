@@ -46,7 +46,9 @@ The arguments are as follows:
 * '--seed_word' : 'The seed word to generate a new text'
 * '--gpu' : 'Turn it one if you have a GPU device'
 
-********Test Script is not complete yet. Character support is not added yet.*************
+********Note:Test Script is not complete yet. Character support is not added yet.
+
+![Train and Dev Loss Plot after 6 epochs on 100mb wikipedia corpus](link-to-image)
 
 
 #### Feel free to contribute to this model.
