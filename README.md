@@ -1,4 +1,4 @@
-# Language_Model
+# Word-level RNN-based Language_Model boosted with character-level features
 
 ### This language model is written in PyTorch.
 
