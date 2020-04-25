@@ -22,7 +22,6 @@ The arguments are as follows:
 * '--features_level' : 'Specify the level of features by which you want to represent your words. Default value is ['word', 'character']'
 * '--cnn_kernels' : CNN Kernels : (n_kernel,width_kernel). Sample input: (10,2) (30,3) (40,4) (40,5). Notice the spaces and parentheses.
 * '--character_embedding_dim' : The dimension of the character embeddings
-* 
 
 * '--dropout_probablity' : 'Dropout probablity applied on embeddings layer and LSTM layer.'
 * '--embeddings_dim' : 'The dimension of the embeddings'
