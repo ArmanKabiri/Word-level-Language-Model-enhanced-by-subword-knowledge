@@ -11,55 +11,124 @@ from CharLevelCNNNetwork import CharLevelCNNNetwork
 
 
 class LanguageModel(nn.Module):
+    word_emb_dim = None
+    hidden_size = None
+    features_level = None
+    n_chars = None
+    char_emb_dim = None
+    cnn_kernels = None
+    use_gpu = None
+    bidirectional = None
+    n_layers = None
+    n_vocab = None
+    freez_emb = None
+    tie_weights = None
+    dropout_prob = None
 
-    def __init__(self, n_layers: int, hidden_size: int, n_vocab: int, word_emb_dim: int,
-                 n_chars: int, char_emb_dim: int, features_level: list, dropout_prob: float, bidirectional: bool,
-                 pret_emb_matrix: np.ndarray = None, freez_emb: bool = True,
-                 tie_weights: bool = False,
-                 use_gpu=False, path_to_pretrained_model=None):
+    object_is_instantiated = False
 
+    def __init__(self):
         super().__init__()
+        self.object_is_instantiated = False
 
-        if path_to_pretrained_model is not None:
-            self.use_gpu = use_gpu
-            self.__load_model(path_to_pretrained_model)
+    @classmethod
+    def instantiate_model(cls, n_layers: int, hidden_size: int, n_vocab: int,
+                          word_emb_dim: int, features_level: list, dropout_prob: float, bidirectional: bool,
+                          use_gpu: bool, freez_emb: bool, tie_weights: bool,
+                          pret_emb_matrix: np.ndarray = None, n_chars: int = None,
+                          char_emb_dim: int = None, cnn_kernels: list = None,
+                          ):
 
-        else:
+        # <-----------Assertion---------->
+        if pret_emb_matrix is not None:
+            assert n_vocab == pret_emb_matrix.shape[0] and word_emb_dim == pret_emb_matrix.shape[1]
+        if tie_weights and freez_emb:
+            raise ValueError('tie_weights and trainable_emb flags should be used in a compatible way.')
+        if pret_emb_matrix is None and freez_emb is True:
+            raise ValueError('When pre-trained embeddings are not given, weights should be trainable.')
+        # </-----------Assertion---------->
 
-            # <-----------Assertion---------->
-            if pret_emb_matrix is not None:
-                assert n_vocab == pret_emb_matrix.shape[0] and word_emb_dim == pret_emb_matrix.shape[1]
-            if tie_weights and freez_emb:
-                raise ValueError('tie_weights and trainable_emb flags should be used in a compatible way.')
-            if pret_emb_matrix is None and freez_emb is True:
-                raise ValueError('When pre-trained embeddings are not given, weights should be trainable.')
-            # </-----------Assertion---------->
+        # <-----------Storing arguments---------->
+        model_object = cls()
+        model_object.word_emb_dim = word_emb_dim
+        model_object.hidden_size = hidden_size
+        model_object.features_level = features_level
+        model_object.n_chars = n_chars
+        model_object.char_emb_dim = char_emb_dim
+        model_object.cnn_kernels = cnn_kernels
+        model_object.use_gpu = use_gpu
+        model_object.bidirectional = bidirectional
+        model_object.n_layers = n_layers
+        model_object.n_vocab = n_vocab
+        model_object.freez_emb = freez_emb
+        model_object.tie_weights = tie_weights
+        model_object.dropout_prob = dropout_prob
+        # </-----------Storing arguments---------->
 
-            # <-----------Storing arguments---------->
-            self.word_emb_dim = word_emb_dim
-            self.hidden_size = hidden_size
-            self.features_level = features_level
-            self.n_chars = n_chars
-            self.char_emb_dim = char_emb_dim
-            self.use_gpu = use_gpu
-            self.bidirectional = bidirectional
-            self.n_layers = n_layers
-            self.n_vocab = n_vocab
-            self.freez_emb = freez_emb
-            self.tie_weights = tie_weights
-            self.dropout_prob = dropout_prob
-            # </-----------Storing arguments---------->
+        model_object.__build_model()
 
-            self.__build_model()
+        init_range = 0.1
+        model_object.__init_weights(pret_emb_matrix, freez_emb, tie_weights, init_range)
 
-            init_range = 0.1
-            self.init_weights(pret_emb_matrix, freez_emb, tie_weights, init_range)
+        model_object.object_is_initiated = True
+
+        return model_object
+
+    @classmethod
+    def load_model(cls, use_gpu=None, path_to_pretrained_model=None):
+
+        print("Loading Model from file...")
+        model_object = cls()
+
+        loaded_parameters = torch.load(path_to_pretrained_model,
+                                       map_location=torch.device('cuda' if use_gpu else 'cpu'))
+
+        model_object.n_layers = loaded_parameters['n_layers']
+        model_object.hidden_size = loaded_parameters['hidden_size']
+        model_object.n_vocab = loaded_parameters['n_vocab']
+        model_object.word_emb_dim = loaded_parameters['word_emb_dim']
+        model_object.n_chars = loaded_parameters['n_chars']
+        model_object.char_emb_dim = loaded_parameters['char_emb_dim']
+        model_object.features_level = loaded_parameters['features_level']
+        model_object.cnn_kernels = loaded_parameters['cnn_kernels']
+        model_object.dropout_prob = loaded_parameters['dropout_prob']
+        model_object.bidirectional = loaded_parameters['bidirectional']
+        model_object.freez_emb = loaded_parameters['freez_emb']
+        model_object.tie_weights = loaded_parameters['tie_weights']
+
+        model_object.__build_model()
+
+        model_object.load_state_dict(loaded_parameters['state_dict'])
+
+        model_object.object_is_initiated = True
+
+        return model_object
+
+    def save_model(self, file_path):
+
+        data_to_save = {
+            'state_dict': self.state_dict(),
+            'n_layers': self.n_layers,
+            'hidden_size': self.hidden_size,
+            'n_vocab': self.n_vocab,
+            'word_emb_dim': self.word_emb_dim,
+            'n_chars': self.n_chars,
+            'char_emb_dim': self.char_emb_dim,
+            'features_level': self.features_level,
+            'cnn_kernels': self.cnn_kernels,
+            'dropout_prob': self.dropout_prob,
+            'bidirectional': self.bidirectional,
+            'freez_emb': self.freez_emb,
+            'tie_weights': self.tie_weights,
+        }
+
+        torch.save(data_to_save, file_path)
 
     def __build_model(self):
 
         self.lstm_input_size = 0
         if 'character' in self.features_level:
-            self.char_CNN_network = CharLevelCNNNetwork(self.n_chars, self.char_emb_dim, self.use_gpu)
+            self.char_CNN_network = CharLevelCNNNetwork(self.n_chars, self.char_emb_dim, self.cnn_kernels, self.use_gpu)
             self.lstm_input_size += self.char_CNN_network.output_tensor_dim
         if 'word' in self.features_level:
             self.word_embedding_layer = nn.Embedding(self.n_vocab, self.word_emb_dim)
@@ -70,7 +139,7 @@ class LanguageModel(nn.Module):
                             dropout=self.dropout_prob, bidirectional=self.bidirectional, batch_first=True)
         self.decoder = nn.Linear(self.hidden_size, self.n_vocab)
 
-    def init_weights(self, pret_emb_matrix, freez_emb, tie_weights, init_range=0.1):
+    def __init_weights(self, pret_emb_matrix, freez_emb, tie_weights, init_range=0.1):
 
         # <-------------Word Embeddings------------->
         if 'word' in self.features_level:
@@ -149,46 +218,6 @@ class LanguageModel(nn.Module):
                             torch.zeros(self.n_layers * num_directions, batch_size, self.hidden_size))
 
         return hidden_state
-
-    def __load_model(self, modelpath: str):
-
-        print("Loading Model from file...")
-
-        loaded_parameters = torch.load(modelpath, map_location=torch.device('cuda' if self.use_gpu else 'cpu'))
-        self.n_layers = loaded_parameters['n_layers']
-        self.hidden_size = loaded_parameters['hidden_size']
-        self.n_vocab = loaded_parameters['n_vocab']
-        self.word_emb_dim = loaded_parameters['word_emb_dim']
-        self.n_chars = loaded_parameters['n_chars']
-        self.char_emb_dim = loaded_parameters['char_emb_dim']
-        self.features_level = loaded_parameters['features_level']
-        self.dropout_prob = loaded_parameters['dropout_prob']
-        self.bidirectional = loaded_parameters['bidirectional']
-        self.freez_emb = loaded_parameters['freez_emb']
-        self.tie_weights = loaded_parameters['tie_weights']
-
-        self.__build_model()
-
-        self.load_state_dict(loaded_parameters['state_dict'])
-
-    def save_model(self, file_path):
-
-        data_to_save = {
-            'state_dict': self.state_dict(),
-            'n_layers': self.n_layers,
-            'hidden_size': self.hidden_size,
-            'n_vocab': self.n_vocab,
-            'word_emb_dim': self.word_emb_dim,
-            'n_chars': self.n_chars,
-            'char_emb_dim': self.char_emb_dim,
-            'features_level': self.features_level,
-            'dropout_prob': self.dropout_prob,
-            'bidirectional': self.bidirectional,
-            'freez_emb': self.freez_emb,
-            'tie_weights': self.tie_weights,
-        }
-
-        torch.save(data_to_save, file_path)
 
 # ### Shapes
 # **input** of shape `(batch, seq_len, input_size)

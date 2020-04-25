@@ -95,7 +95,7 @@ class DictionaryCharacter:
             for char in self.id2char:
                 file.write(f"{char}\n")
 
-    def load_dictionary(self, id2char_filepath: str, char2id_filepath: str):
+    def load_dictionary(self, id2char_filepath: str, char2id_filepath: str, loaded_word_dictionary):
 
         with open(id2char_filepath, 'r') as file:
             self.id2char = [char.rstrip() for char in file]
@@ -106,5 +106,12 @@ class DictionaryCharacter:
                 self.char2id[char] = int(char_id)
 
         assert len(self.char2id) == len(self.id2char)
-        self.vocab_size = len(self.char2id)
-        print(f"Dictionaries are loaded - Vocab size is {len(self.id2char)}")
+        self.dic_size = len(self.char2id)
+
+        self.max_word_len = 0
+        vocabulary = loaded_word_dictionary.get_vocabulary()
+        for word in vocabulary:
+            self.max_word_len = max(self.max_word_len, len(word))
+
+        self.word_dict = loaded_word_dictionary
+        print(f"Character dictionary is loaded - Vocab size is {len(self.id2char)}")

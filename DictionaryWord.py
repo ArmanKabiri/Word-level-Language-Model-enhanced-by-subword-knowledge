@@ -11,6 +11,7 @@ class DictionaryWord:
         self.word2id = dict()
         self.id2word = list()
         self.vocab_size = 0
+        self.UNK_SYMBOL = "<UNK>"
 
     def build_dictionary(self, corpus_reader):
 
@@ -25,6 +26,9 @@ class DictionaryWord:
                 if word not in self.word2id:
                     self.id2word.append(word)
                     self.word2id[word] = len(self.id2word) - 1
+
+        self.id2word.append(self.UNK_SYMBOL)
+        self.word2id[self.UNK_SYMBOL] = len(self.id2word) - 1
 
         self.vocab_size = len(self.id2word)
         print(f"Dictionaries are built - Vocab size is {self.vocab_size}")
@@ -41,7 +45,7 @@ class DictionaryWord:
 
         assert len(self.word2id) == len(self.id2word)
         self.vocab_size = len(self.word2id)
-        print(f"Dictionaries are loaded - Vocab size is {len(self.id2word)}")
+        print(f"Word Dictionary is loaded - Vocab size is {len(self.id2word)}")
 
     def save_dictionary(self, id2word_filepath: str, word2id_filepath: str):
         with open(word2id_filepath, 'w') as file:
@@ -55,7 +59,7 @@ class DictionaryWord:
                 file.write(f"{word}\n")
 
     def encode_text(self, text: str) -> list:
-        return [self.word2id[word] for word in text.split(' ')]
+        return [self.word2id[word] if word in self.word2id else self.word2id[self.UNK_SYMBOL] for word in text.split(' ')]
 
     def decode_text(self, sequence: list) -> str:
         return ' '.join([self.id2word[idx] for idx in sequence])

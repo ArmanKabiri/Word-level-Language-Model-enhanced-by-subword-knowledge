@@ -31,7 +31,7 @@ class EmbeddingsLoader:
         self.embeddings_size = dictionary.get_dic_size()
         weights_matrix = np.zeros((self.embeddings_size, self.dim))
 
-        for i, word in enumerate(dictionary.id2char):
+        for i, word in enumerate(dictionary.id2word):
 
             try:
                 weights_matrix[i] = pretrained_emb[word]

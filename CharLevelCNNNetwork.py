@@ -10,7 +10,7 @@ import torch.nn.functional as F
 
 class CharLevelCNNNetwork(nn.Module):
 
-    def __init__(self, num_char, char_emb_dim, use_gpu):
+    def __init__(self, num_char, char_emb_dim, cnn_kernels, use_gpu):
 
         super(CharLevelCNNNetwork, self).__init__()
         self.char_emb_dim = char_emb_dim
@@ -19,7 +19,8 @@ class CharLevelCNNNetwork(nn.Module):
         self.char_embed = nn.Embedding(num_char, char_emb_dim)
 
         # list of tuples: (the number of filter, width)
-        self.filter_num_width = [(10, 2), (30, 3), (40, 4), (40, 5), (40, 6)]
+        self.cnn_kernels = cnn_kernels
+
         # convolutions of filters with different sizes
         self.convolutions = nn.ModuleList([
             nn.Conv2d(
@@ -27,10 +28,10 @@ class CharLevelCNNNetwork(nn.Module):
                 out_channel,  # out_channel
                 kernel_size=(char_emb_dim, filter_width),  # (height, width)
                 bias=True
-            ) for out_channel, filter_width in self.filter_num_width
+            ) for out_channel, filter_width in self.cnn_kernels
         ])
 
-        self.highway_input_dim = sum([x for x, y in self.filter_num_width])
+        self.highway_input_dim = sum([x for x, y in self.cnn_kernels])
         self.output_tensor_dim = self.highway_input_dim
 
         self.batch_norm = nn.BatchNorm1d(self.highway_input_dim, affine=False)
