@@ -48,7 +48,7 @@ The arguments are as follows:
 
 ********Note:Test Script is not complete yet. Character support is not added yet.
 
-![Train and Dev Loss Plot after 6 epochs on 100mb wikipedia corpus](link-to-image)
+![Train and Dev Loss Plot after 6 epochs on 100mb wikipedia corpus](loss.png)
 
 
 #### Feel free to contribute to this model.
