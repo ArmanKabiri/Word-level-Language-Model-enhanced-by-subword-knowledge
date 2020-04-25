@@ -1,4 +1,4 @@
-# Word-level RNN-based Language Model enhanced with character-level knowledge
+# Word-level RNN-based Language Model enhanced with subword knowledge
 
 ### This language model is written in PyTorch.
 
