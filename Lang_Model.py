@@ -24,8 +24,12 @@ class LanguageModel(nn.Module):
     freez_emb = None
     tie_weights = None
     dropout_prob = None
+    globaliter = 0
+    current_in_progress_epoch = 0
 
     object_is_instantiated = False
+
+    optimizer_state = None
 
     def __init__(self):
         super().__init__()
@@ -75,10 +79,12 @@ class LanguageModel(nn.Module):
         return model_object
 
     @classmethod
-    def load_model(cls, use_gpu=None, path_to_pretrained_model=None):
+    def load_model(cls, use_gpu, path_to_pretrained_model):
 
         print("Loading Model from file...")
+
         model_object = cls()
+        model_object.use_gpu = use_gpu
 
         loaded_parameters = torch.load(path_to_pretrained_model,
                                        map_location=torch.device('cuda' if use_gpu else 'cpu'))
@@ -95,16 +101,20 @@ class LanguageModel(nn.Module):
         model_object.bidirectional = loaded_parameters['bidirectional']
         model_object.freez_emb = loaded_parameters['freez_emb']
         model_object.tie_weights = loaded_parameters['tie_weights']
+        model_object.globaliter = loaded_parameters['globaliter']
+        model_object.current_in_progress_epoch = loaded_parameters['current_in_progress_epoch']
 
         model_object.__build_model()
 
         model_object.load_state_dict(loaded_parameters['state_dict'])
 
+        # model_object.optimizer_state = loaded_parameters['optimizer_state']
+
         model_object.object_is_initiated = True
 
         return model_object
 
-    def save_model(self, file_path):
+    def save_model(self, file_path, optimizer):
 
         data_to_save = {
             'state_dict': self.state_dict(),
@@ -120,6 +130,9 @@ class LanguageModel(nn.Module):
             'bidirectional': self.bidirectional,
             'freez_emb': self.freez_emb,
             'tie_weights': self.tie_weights,
+            'globaliter': self.globaliter,
+            'current_in_progress_epoch': self.current_in_progress_epoch,
+            'optimizer_state': optimizer.state_dict()
         }
 
         torch.save(data_to_save, file_path)

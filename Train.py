@@ -1,9 +1,29 @@
-# %%
-
 #### Author: Arman Kabiri
 #### Date: Feb. 18, 2020
 #### Email: Arman.Kabiri94@gmail.com
 
+try:
+    import google.colab
+
+    IN_COLAB = True
+except:
+    IN_COLAB = False
+
+
+def is_interactive():
+    import __main__ as main
+    return not hasattr(main, '__file__')
+
+
+if IN_COLAB:
+    from google.colab import drive
+
+    drive.mount('/gdrive')
+
+if IN_COLAB:
+    import os
+
+    os.chdir('/gdrive/My Drive/NLP_Stuff/My_Language_Model')
 
 import os.path as path
 import datetime
@@ -14,6 +34,7 @@ import torch
 import torch.nn as nn
 from tqdm import tqdm
 
+getattr(tqdm, '_instances', {}).clear()
 import GPUtil
 
 from CorpusReader import CorpusReader
@@ -22,65 +43,14 @@ from DictionaryCharacter import DictionaryCharacter
 from EmbeddingsLoader import EmbeddingsLoader
 from Lang_Model import LanguageModel
 
-getattr(tqdm, '_instances', {}).clear()
-
-# %%
-
-parser = argparse.ArgumentParser(description='LSTM Language Model - Text Generator')
-parser.add_argument('--corpus_train_file', type=str, default='Data/corpus-100mb-train.txt',
-                    help='location of the corpus for training')
-parser.add_argument('--corpus_dev_file', type=str, default='Data/corpus-100mb-dev.txt',
-                    help='location of the corpus for evaluation')
-parser.add_argument('--word_embeddings_file', type=str, default='Data/English_Wiki_1Billion_embeddings.bin',
-                    help='If pretrained embeddings exist, load them here.')
-parser.add_argument('--word_embeddings_dim', type=int, default=300, help='The dimension of the embeddings')
-
-parser.add_argument('--output_model_path', type=str, default='Data/model.bin',
-                    help='Path to save or load the trained model.')
-parser.add_argument('--output_id2word_path', type=str, default='Data/id2word.txt',
-                    help='Path to save or dictionary file (id2word)')
-parser.add_argument('--output_word2id_path', type=str, default='Data/word2id.txt',
-                    help='Path to save or dictionary file (word2id)')
-parser.add_argument('--output_id2char_path', type=str, default='Data/id2char.txt',
-                    help='Path to save or dictionary file (id2char)')
-parser.add_argument('--output_char2id_path', type=str, default='Data/char2id.txt',
-                    help='Path to save or dictionary file (char2id)')
-
-parser.add_argument('--batch_size', type=int, default=256, help='Number of samples per batch.')
-parser.add_argument('--seq_len', type=int, default=10, help='Length of the sequence for back propagation.')
-parser.add_argument('--epochs', type=int, default=5, help='Number of epochs.')
-parser.add_argument('--lr', type=int, default=0.001, help='Learning Rate')
-parser.add_argument('--clip_grad', type=int, default=120,
-                    help='Clip gradients during training to prevent exploding gradients.')
-parser.add_argument('--dropout_probablity', type=int, default=256,
-                    help='Dropout probablity applied on embeddings layer and LSTM layer.')
-parser.add_argument('--seed', type=int, default=120, help='The seed for randomness')
-
-parser.add_argument('--n_lstm_layers', type=int, default=2, help='Number of LSTM layers stacked on top of each other.')
-parser.add_argument('--hidden_size', type=int, default=300, help='Number of hidden units in each LSTM layer')
-parser.add_argument('--character_embedding_dim', type=int, default=10, help='The dimension of the character embeddings')
-parser.add_argument('--cnn_kernels', type=str, nargs='+', default=['(10,2)', '(30,3)', '(40,4)', '(40,5)'],
-                    help="CNN Kernels : (n_kernel,width_kernel). Sample input: (10,2) (30,3) (40,4) (40,5)."
-                         "Notice the spaces and parentheses.")
-parser.add_argument('--features_level', nargs='+', type=str, default=['word', 'character'],
-                    help='Specify the level of features by which you want to represent your words.')
-
-parser.add_argument('--bidirectional_model', action='store_true',
-                    help='Use it if you want your LSTM to be bidirectional.')
-parser.add_argument('--tie_weights', action='store_true',
-                    help='Tie weights of the last decoder layer to the embeddings layer.')
-parser.add_argument('--freez_embeddings', action='store_true',
-                    help='Prevent the pretrained loaded embeddings from fine-tuning.')
-parser.add_argument('--use_tensorboard', action='store_true', help='Turn on if you use Tensorboard')
-parser.add_argument('--print_steps', type=int, default=50, help='evaluate and print every n iteration.')
-parser.add_argument('--gpu', action='store_true', help='Turn it on if you have a GPU device.')
-
 
 class Args:
     ## Corpus Files:
     # corpus_train_file='Data/WestburyLab.Wikipedia.Corpus_AdagramTokenized.txt'
-    corpus_train_file = 'Data/corpus-100mb-train.txt'
-    corpus_dev_file = 'Data/corpus-100mb-dev.txt'
+    #     corpus_train_file = 'Data/corpus-100mb-train.txt'
+    #     corpus_dev_file = 'Data/corpus-100mb-dev.txt'
+    corpus_train_file = 'Twitter/COVID19-Tweets-KaggleDataset-parsed-cleaned-100mb-train.txt'
+    corpus_dev_file = 'Twitter/COVID19-Tweets-KaggleDataset-parsed-cleaned-100mb-dev.txt'
 
     ## Word Embeddings
     word_embeddings_file = 'Data/English_Wiki_1Billion_embeddings.bin'
@@ -94,20 +64,20 @@ class Args:
     output_char2id_path = 'Data/char2id.txt'
 
     # Training HyperParameters:
-    batch_size = 256
+    batch_size = 128
     seq_len = 10
-    epochs = 9
+    epochs = 6
     lr = 0.001
     seed = 120
     clip_grad = 5
-    dropout_probablity = .25
+    dropout_probablity = 0.30
 
     ## Network Properties:
     # LSTM Layer:
     n_lstm_layers = 2
     hidden_size = 300
     # CNN Layer:
-    cnn_kernels = ['(10, 2)', '(30, 3)', '(40, 4)', '(40, 5)']
+    cnn_kernels = ['(10, 2)', '(20, 3)', '(30, 4)', '(40, 5)']
 
     ## Character Feature Detector:
     features_level = ['word', 'character']  # 'word' and 'character'
@@ -120,18 +90,80 @@ class Args:
     gpu = True
 
     ## Debug
-    print_steps = 50
-    use_tensorboard = True
+    print_loss_steps = 100
+    evaluate_dev_steps = 1000
+    use_tensorboard = False
 
 
-# args = Args()
-args = parser.parse_args()
+def get_args_from_terminal():
+    parser = argparse.ArgumentParser(description='LSTM Language Model - Train')
+
+    parser.add_argument('--corpus_train_file', type=str, default='Data/corpus-100mb-train.txt',
+                        help='location of the corpus for training')
+    parser.add_argument('--corpus_dev_file', type=str, default='Data/corpus-100mb-dev.txt',
+                        help='location of the corpus for evaluation')
+    parser.add_argument('--word_embeddings_file', type=str, default='Data/English_Wiki_1Billion_embeddings.bin',
+                        help='If pretrained embeddings exist, load them here.')
+    parser.add_argument('--word_embeddings_dim', type=int, default=300, help='The dimension of the embeddings')
+
+    parser.add_argument('--output_model_path', type=str, default='Data/model.bin',
+                        help='Path to save or load the trained model.')
+    parser.add_argument('--output_id2word_path', type=str, default='Data/id2word.txt',
+                        help='Path to save or dictionary file (id2word)')
+    parser.add_argument('--output_word2id_path', type=str, default='Data/word2id.txt',
+                        help='Path to save or dictionary file (word2id)')
+    parser.add_argument('--output_id2char_path', type=str, default='Data/id2char.txt',
+                        help='Path to save or dictionary file (id2char)')
+    parser.add_argument('--output_char2id_path', type=str, default='Data/char2id.txt',
+                        help='Path to save or dictionary file (char2id)')
+
+    parser.add_argument('--batch_size', type=int, default=256, help='Number of samples per batch.')
+    parser.add_argument('--seq_len', type=int, default=10, help='Length of the sequence for back propagation.')
+    parser.add_argument('--epochs', type=int, default=5, help='Number of epochs.')
+    parser.add_argument('--lr', type=int, default=0.001, help='Learning Rate')
+    parser.add_argument('--clip_grad', type=int, default=120,
+                        help='Clip gradients during training to prevent exploding gradients.')
+    parser.add_argument('--dropout_probablity', type=int, default=256,
+                        help='Dropout probablity applied on embeddings layer and LSTM layer.')
+    parser.add_argument('--seed', type=int, default=120, help='The seed for randomness')
+
+    parser.add_argument('--n_lstm_layers', type=int, default=2,
+                        help='Number of LSTM layers stacked on top of each other.')
+    parser.add_argument('--hidden_size', type=int, default=300, help='Number of hidden units in each LSTM layer')
+    parser.add_argument('--character_embedding_dim', type=int, default=10,
+                        help='The dimension of the character embeddings')
+    parser.add_argument('--cnn_kernels', type=str, nargs='+', default=['(10,2)', '(30,3)', '(40,4)', '(40,5)'],
+                        help="CNN Kernels : (n_kernel,width_kernel). Sample input: (10,2) (30,3) (40,4) (40,5)."
+                             "Notice the spaces and parentheses.")
+    parser.add_argument('--features_level', nargs='+', type=str, default=['word', 'character'],
+                        help='Specify the level of features by which you want to represent your words.')
+
+    parser.add_argument('--bidirectional_model', action='store_true',
+                        help='Use it if you want your LSTM to be bidirectional.')
+    parser.add_argument('--tie_weights', action='store_true',
+                        help='Tie weights of the last decoder layer to the embeddings layer.')
+    parser.add_argument('--freez_embeddings', action='store_true',
+                        help='Prevent the pretrained loaded embeddings from fine-tuning.')
+    parser.add_argument('--use_tensorboard', action='store_true', help='Turn on if you use Tensorboard')
+    parser.add_argument('--print_loss_steps', type=int, default=50, help='print training loss every n iteration.')
+    parser.add_argument('--evaluate_dev_steps', type=int, default=100, help='evaluate dev and print every n iteration.')
+    parser.add_argument('--gpu', action='store_true', help='Turn it on if you have a GPU device.')
+
+    args = parser.parse_args()
+    return args
+
+
+if is_interactive():
+    args = Args()
+else:
+    args = get_args_from_terminal()
 
 args.cnn_kernels = [tuple(map(int, item.replace('(', '').replace(')', '').replace(' ', '').split(','))) for item in
                     args.cnn_kernels]
 
-# %%
+assert args.evaluate_dev_steps % args.print_loss_steps == 0
 
+train_summary_writer, test_summary_writer = None, None
 if args.use_tensorboard:
     import tensorflow as tf
     from tensorflow import summary
@@ -143,12 +175,10 @@ if args.use_tensorboard:
     train_summary_writer = summary.create_file_writer(train_log_dir)
     test_summary_writer = summary.create_file_writer(test_log_dir)
 
-# %%
+    print(f"log file: {current_time}")
 
 torch.cuda.is_available()
 
-
-# %%
 
 def evaluate_on_dev(model, corpus_dev_reader, dictionary_word, dictionary_char):
     loss_values = []
@@ -185,10 +215,7 @@ def evaluate_on_dev(model, corpus_dev_reader, dictionary_word, dictionary_char):
     return sum(loss_values) / len(loss_values)
 
 
-# %%
-
-def train(corpus_train_reader, corpus_dev_reader, dictionary_word, dictionary_char, model, optimizer, criterion,
-          epoch_number):
+def train(corpus_train_reader, corpus_dev_reader, dictionary_word, dictionary_char, model, optimizer, criterion):
     batch_generator_train = corpus_train_reader.batchify(dictionary_word, args.batch_size, args.seq_len)
     hidden = model.init_hidden(args.batch_size)
 
@@ -196,7 +223,9 @@ def train(corpus_train_reader, corpus_dev_reader, dictionary_word, dictionary_ch
     if args.gpu:
         GPU_device_logger = GPUtil.getGPUs()[0]
 
-    with tqdm(unit='words', unit_scale=True, postfix=f'Epoch {epoch_number}') as pbar:
+    with tqdm(unit='words', unit_scale=True, postfix=f'Epoch: {model.current_in_progress_epoch}') as pbar:
+
+        pbar.postfix = ' - Training ...'
 
         # Shape of X : (batch_size, seq_len)
         for x_word, y_word in batch_generator_train:
@@ -229,50 +258,69 @@ def train(corpus_train_reader, corpus_dev_reader, dictionary_word, dictionary_ch
 
             optimizer.step()
 
+            if step % args.evaluate_dev_steps == 0:
+                pbar.postfix = ' - Evaluation Dev ...'
             pbar.set_description(f'progress = {corpus_train_reader.get_progress()}%')
+
             # update number of processed words
             pbar.update(args.batch_size * args.seq_len)
 
             ####### EVALUATION--------------------
-            if step % args.print_steps == 0:
+            if step % args.print_loss_steps == 0:
+                model.globaliter += 1
 
+                print_evaluation(loss, model.globaliter, model.current_in_progress_epoch,
+                                 corpus_train_reader.get_progress(), train_summary_writer)
+
+                if args.gpu:
+                    print_GPU_Usage(GPU_device_logger, model.globaliter, train_summary_writer)
+
+            if step % args.evaluate_dev_steps == 0:
+                if ~args.use_tensorboard:
+                    print('Evaluating...')
                 model.eval()
                 dev_loss = evaluate_on_dev(model, corpus_dev_reader, dictionary_word, dictionary_char)
                 model.train()
+                print_evaluation(dev_loss, model.globaliter, model.current_in_progress_epoch,
+                                 corpus_train_reader.get_progress(), test_summary_writer)
+                pbar.postfix = ' - Training ...'
 
-                if args.use_tensorboard:
-
-                    args.globaliter += 1
-
-                    with test_summary_writer.as_default():
-                        tf.summary.scalar('loss', dev_loss.item(), step=args.globaliter)
-                        tf.summary.text('progress',
-                                        f"Epoch {epoch_number} progress = {corpus_train_reader.get_progress()}% ,  Loss = {dev_loss.item()} ,  PPL = {np.exp(dev_loss.item())}",
-                                        step=args.globaliter)
-
-                    with train_summary_writer.as_default():
-
-                        tf.summary.scalar('loss', loss.item(), step=args.globaliter)
-                        tf.summary.text('progress',
-                                        f"Epoch {epoch_number} progress = {corpus_train_reader.get_progress()}% ,  Loss = {loss.item()} ,  PPL = {np.exp(loss.item())}",
-                                        step=args.globaliter)
-                        if args.gpu:
-                            tf.summary.text('GPU Summary',
-                                            'Mem Free: {:.0f}MB / {:.0f}MB | Utilization {:3.0f}%'.format(
-                                                GPU_device_logger.memoryFree, GPU_device_logger.memoryTotal,
-                                                GPU_device_logger.memoryUtil * 100), step=args.globaliter)
-                else:
-                    print(
-                        f'epoch:{epoch_number}, step:{step}, progress = {corpus_train_reader.get_progress()}% ,  Loss = {loss.item()} ,  PPL = {np.exp(loss.item())}')
+        # Evaluate at the end of epoch:
+        model.globaliter += 1
+        print_evaluation(loss, model.globaliter, model.current_in_progress_epoch, corpus_train_reader.get_progress(),
+                         train_summary_writer)
+        model.eval()
+        dev_loss = evaluate_on_dev(model, corpus_dev_reader, dictionary_word, dictionary_char)
+        model.train()
+        print_evaluation(dev_loss, model.globaliter, model.current_in_progress_epoch,
+                         corpus_train_reader.get_progress(), test_summary_writer)
 
 
-# %%
+def print_evaluation(loss, globaliter, epoch, progress, summary_writer):
+    if args.use_tensorboard:
+
+        with summary_writer.as_default():
+
+            tf.summary.scalar('Loss', loss.item(), step=globaliter)
+            tf.summary.text('progress',
+                            f"Epoch {epoch} progress = {progress}% ,  Loss = {loss.item()} ,  PPL = {np.exp(loss.item())}",
+                            step=globaliter)
+
+    else:
+        print(
+            f'epoch:{epoch}, step:{globaliter}, progress = {progress}% ,  Loss = {loss.item()} ,  PPL = {np.exp(loss.item())}')
+
+
+def print_GPU_Usage(GPU_device_logger, globaliter, summary_writer):
+    if args.use_tensorboard:
+        with summary_writer.as_default():
+            tf.summary.text('GPU Summary', 'Mem Free: {:.0f}MB / {:.0f}MB | Utilization {:3.0f}%'.format(
+                GPU_device_logger.memoryFree, GPU_device_logger.memoryTotal,
+                GPU_device_logger.memoryUtil * 100), step=globaliter)
+
 
 def detach_hidden(hidden: tuple):
     return tuple(v.detach() for v in hidden)
-
-
-# %%
 
 
 # Main script:
@@ -326,6 +374,15 @@ else:
         dictionary_char.save_dictionary(args.output_id2char_path, args.output_char2id_path)
     print("Dictionaries are saved...")
 
+    # print("Loading Dictionaries...")
+    # dictionary_word.load_dictionary(id2word_filepath=args.output_id2word_path,
+    #                                 word2id_filepath=args.output_word2id_path)
+
+    # if 'character' in args.features_level:
+    #     dictionary_char.load_dictionary(id2char_filepath=args.output_id2char_path,
+    #                                     char2id_filepath=args.output_char2id_path,
+    #                                     loaded_word_dictionary=dictionary_word)
+
     embeddings_matrix = None
     if args.word_embeddings_file is not None and 'word' in args.features_level:
         print("Loading Embeddings...")
@@ -362,17 +419,17 @@ if args.gpu:
     model.cuda()
 
 # Optimizer and Loss
-optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
+if model.optimizer_state is not None:
+    optimizer.load_state_dict(model.optimizer_state)
+
 criterion = nn.CrossEntropyLoss()
 
 # Training Model
 print("Training Model...")
-args.globaliter = 0
 for i in range(1, args.epochs + 1):
-    print(f"Epoch {i}:")
-    train(corpus_train_reader, corpus_dev_reader, dictionary_word, dictionary_char, model, optimizer, criterion,
-          epoch_number=i)
-    print(f"Saving Model at epoch {i}...\n")
-    model.save_model(args.output_model_path)
-
-# %%
+    model.current_in_progress_epoch += 1
+    print(f"\nEpoch {model.current_in_progress_epoch}:")
+    train(corpus_train_reader, corpus_dev_reader, dictionary_word, dictionary_char, model, optimizer, criterion)
+    print(f"Saving Model at epoch {model.current_in_progress_epoch} ...\n")
+    model.save_model(args.output_model_path, optimizer)

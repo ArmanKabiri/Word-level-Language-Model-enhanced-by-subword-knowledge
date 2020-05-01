@@ -87,9 +87,11 @@ class CharLevelCNNNetwork(nn.Module):
             feature_map = F.tanh(conv(x))
             # (batch_size, out_channel, 1, max_word_len-width+1)
             # Max Pooling Over Time:
+            batch_size = feature_map.size()[0]
             chosen = torch.max(feature_map, 3)[0]
             # (batch_size, out_channel, 1)
             chosen = chosen.squeeze()
+            chosen = chosen.view((batch_size, -1))
             # (batch_size, out_channel)
             chosen_list.append(chosen)
 

@@ -1,8 +1,8 @@
-# Word-level RNN-based Language Model enhanced with subword knowledge
+# Word-level RNN-based Language Model enhanced with character-level knowledge
 
 ### This language model is written in PyTorch.
 
-This language model works in three modes. Words can be represented by: word embeddings, subword-embeddings (i.e. prefixes, suffixes, etc.), and both. Word embeddings can be initialized with pre-trained embeddings or can be learned from scratch. The subword-embeddings are learned jointly with the word embeddings using a character-level convolution neural network (CNN). Finally, a two-layer LSTM layer is applied on the word representations to learn the word sequences.
+By giving ['word','character'] to the features_level argument, your model first tries to learn subword features (i.e. prefixes, suffixes, etc.) using a character-level CNN. Then the extracted feature vector of each word is concatenated with its word embedding, and is finally fed into a n-layer LSTM. You are free to try other values for features_level.
 
 #### To train the model on your own corpus, simply call Train.py with its arguments.
 
@@ -46,9 +46,9 @@ The arguments are as follows:
 * '--seed_word' : 'The seed word to generate a new text'
 * '--gpu' : 'Turn it one if you have a GPU device'
 
-##### Note:Test Script is not complete yet. Character support is not added yet.
+********Note:Test Script is not complete yet. Character support is not added yet.
 
-![Train and Dev Loss Plot after 6 epochs on 100mb wikipedia corpus](loss.png)
-Fig.1 Train and Dev Loss Plot after 6 epochs on 100mb wikipedia dump
+![Train and Dev Loss Plot after 6 epochs on 100mb wikipedia corpus](link-to-image)
+
 
 #### Feel free to contribute to this model.
