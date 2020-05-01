@@ -108,7 +108,7 @@ class LanguageModel(nn.Module):
 
         model_object.load_state_dict(loaded_parameters['state_dict'])
 
-        # model_object.optimizer_state = loaded_parameters['optimizer_state']
+        model_object.optimizer_state = loaded_parameters['optimizer_state']
 
         model_object.object_is_initiated = True
 
