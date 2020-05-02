@@ -78,9 +78,9 @@ with the following arguments:
 * '--gpu' : 'Turn it on if you have a GPU device.'
 
 
-#### To have the model generates new tweets, simply run
+#### To have the model generate new tweets, simply run
 ```
-Generate.py
+python Generate.py
 ```
 with the following arguments:
 
