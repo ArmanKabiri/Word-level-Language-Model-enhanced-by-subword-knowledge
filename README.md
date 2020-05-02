@@ -1,6 +1,6 @@
 # A Word-level RNN-based Language Model enhanced with character-level knowledge implemented in PyTorch
 ---
-This language model, following [[1]](#1), extract n-gram features from words using a CNN network. The word embeddings are then empowered by the trained character-level features after being feed to the RNN component.
+This language model, following [[1]](#1), extracts n-gram features from words using a CNN network. The word embeddings are then empowered by the trained character-level features after being feed to the RNN component.
 
 This language model, following [[1]](#1), first tries to learn subword features (i.e. prefixes, suffixes, etc.) using a character-level CNN. Then the extracted feature vector of each word is concatenated with its word embedding, and is finally fed into a n-layer LSTM.
 
