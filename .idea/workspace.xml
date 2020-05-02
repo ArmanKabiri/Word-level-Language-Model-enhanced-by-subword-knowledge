@@ -20,17 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="235fe5cb-094f-4259-820d-53ce413dabaf" name="Default Changelist" comment="Character-level CNN is added to the model.">
-      <change afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ParseTweets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Train-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Train-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CharLevelCNNNetwork.py" beforeDir="false" afterPath="$PROJECT_DIR$/CharLevelCNNNetwork.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DictionaryCharacter.py" beforeDir="false" afterPath="$PROJECT_DIR$/DictionaryCharacter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DictionaryWord.py" beforeDir="false" afterPath="$PROJECT_DIR$/DictionaryWord.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EmbeddingsLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/EmbeddingsLoader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lang_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lang_Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Train.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Train.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,6 +231,7 @@
       <workItem from="1587684401389" duration="148000" />
       <workItem from="1587773770078" duration="7498000" />
       <workItem from="1587824566122" duration="4263000" />
+      <workItem from="1588377044904" duration="694000" />
     </task>
     <task id="LOCAL-00001" summary="Model implementation">
       <created>1582922993083</created>
@@ -332,6 +324,10 @@
     </state>
     <state x="319" y="357" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1587827641270" />
     <state x="528" y="314" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/65.24.1855.1056@65.24.1855.1056" timestamp="1583279644528" />
+    <state x="545" y="334" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588377211883">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="545" y="334" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1680.1050@0.0.1680.1050" timestamp="1588377211883" />
     <state x="501" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1587468516250">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
@@ -427,6 +423,11 @@
           <url>file://$PROJECT_DIR$/temp.py</url>
           <line>15</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
+          <url>notebook:///Users/arman/Insync/arman.kabiri94@gmail.com/Google Drive/NLP_Stuff/My_Language_Model/Parse_Tweets.ipynb</url>
+          <line>2</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
