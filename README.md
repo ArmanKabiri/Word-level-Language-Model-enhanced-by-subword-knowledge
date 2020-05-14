@@ -92,18 +92,24 @@ with the following arguments:
 * '--seed_sequence' : 'The sequence given to the model as the seed for text generation.'
 * '--gpu' : 'Turn it one if you have a GPU device'
 
+---
 ### This Model is also containerized using Docker.
 
-So After downloading the image file, train the model by running:
+So, firs pull the image to your device bu running:
 ```
-docker run -it twitter-language-model-python python Train.py [Arguements]
+docker pull arman73k/twitter-language-model-python
+```
+
+After pulling the image file, train the model by running:
+```
+docker run -it arman73k/twitter-language-model-python python Train.py [Arguements]
 ```
 
 To Test the model and generate tweets, simply run:
 ```
-docker run -it twitter-language-model-python python Generate.py [Arguements]
+docker run -it arman73k/twitter-language-model-python python Generate.py [Arguements]
 ```
-
+---
 ### Feel free to contribute to this model.
 
 ---
