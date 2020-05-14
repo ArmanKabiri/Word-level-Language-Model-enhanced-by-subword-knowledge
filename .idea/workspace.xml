@@ -20,8 +20,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="235fe5cb-094f-4259-820d-53ce413dabaf" name="Default Changelist" comment="Character-level CNN is added to the model.">
-      <change afterPath="$PROJECT_DIR$/ParseTweets.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scripts/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/My_Language_Model.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/My_Language_Model.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/00-RNN-for-Text-Generation .ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/00-RNN-for-Text-Generation .ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CharLevelCNNNetwork.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/CharLevelCNNNetwork.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CorpusReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/CorpusReader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DictionaryCharacter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/DictionaryCharacter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DictionaryWord.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/DictionaryWord.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmbeddingsLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/EmbeddingsLoader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Generate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lang_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Lang_Model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ParseTweets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/ParseTweets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parse_Tweets.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Parse_Tweets.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Train.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +82,12 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
-  <component name="RunManager" selected="Python.temp">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Scripts" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.Generate">
     <configuration name="DictionaryCharacter" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="My_Language_Model" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -79,7 +101,26 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DictionaryCharacter.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/DictionaryCharacter.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Generate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="My_Language_Model" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/Generate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -101,7 +142,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Lang_Model.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/Lang_Model.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -123,7 +164,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Train.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/Train.py" />
       <option name="PARAMETERS" value="--corpus_train_file Data/10mb.txt --n_layers 1 --hidden_size 200 --dropout_probablity 0.25 --embeddings_dim 100 --batch_size 100 --seq_len 10 --epochs 1 --lr 0.001 --seed 85" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -204,9 +245,11 @@
       <item itemvalue="Python.Train" />
       <item itemvalue="Python.DictionaryCharacter" />
       <item itemvalue="Python.train" />
+      <item itemvalue="Python.Generate" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Generate" />
         <item itemvalue="Python.Train" />
         <item itemvalue="Python.train" />
         <item itemvalue="Python.Lang_Model" />
@@ -232,6 +275,7 @@
       <workItem from="1587773770078" duration="7498000" />
       <workItem from="1587824566122" duration="4263000" />
       <workItem from="1588377044904" duration="694000" />
+      <workItem from="1589396409662" duration="12341000" />
     </task>
     <task id="LOCAL-00001" summary="Model implementation">
       <created>1582922993083</created>
@@ -315,6 +359,10 @@
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="521" y="57" key="#Dockerfile" timestamp="1589399324064">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="521" y="57" key="#Dockerfile/0.0.1680.1050@0.0.1680.1050" timestamp="1589399324064" />
     <state x="592" y="201" key="#Inspections" timestamp="1584202351407">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
@@ -418,18 +466,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/temp.py</url>
-          <line>15</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook:///Users/arman/Insync/arman.kabiri94@gmail.com/Google Drive/NLP_Stuff/My_Language_Model/Parse_Tweets.ipynb</url>
-          <line>2</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
